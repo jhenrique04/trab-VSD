@@ -1,0 +1,62 @@
+# ambiente e python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# logs e processos locais
+logs/
+*.log
+*.pid
+
+# cache e arquivos temporarios
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# latex temporario
+*.aux
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# ferramentas de ia e agentes
+.claude/
+.codex/
+.code-review-graph/
+.aider*
+.continue/
+.cursor/
+.windsurf/
+.agents/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+*_prompt.md
+*prompt*.md
+*plano*.md
+*plan*.md
+ai-notes/
+agent-notes/
+
+# saidas locais opcionais
+.cache/
+.ipynb_checkpoints/
+node_modules/
+
+# arquivos sensiveis
+.env
+.env.*
+!.env.example

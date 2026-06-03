@@ -1,0 +1,8 @@
+{
+  "generated_at": "2026-05-11T14:18:27-03:00",
+  "source": "Our World in Data CO2 and Greenhouse Gas Emissions",
+  "repository": "https://github.com/owid/co2-data",
+  "data_url": "https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv",
+  "codebook_url": "https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-codebook.csv",
+  "notes": "Main CO2 and greenhouse gas emissions CSV plus codebook."
+}

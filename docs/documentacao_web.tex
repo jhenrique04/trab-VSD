@@ -1,0 +1,454 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  pdftitle={Documentacao do produto web Desenvolvimento e Planeta},
+  pdfauthor={Jose Henrique Viana Santos e Maria Carolina Maximo Viana}
+}
+
+\renewcommand{\arraystretch}{1.25}
+
+\title{Documentacao tecnica do produto web\\\textbf{Desenvolvimento \& Planeta}}
+\author{Jose Henrique Viana Santos \and Maria Carolina Maximo Viana}
+\date{2026.1}
+
+\begin{document}
+
+\maketitle
+
+\section{Visao geral}
+
+O produto web desenvolvido em \texttt{web/threejs-globe/} e uma narrativa interativa de pagina unica sobre desenvolvimento humano, emissoes de CO2 e justica climatica. A pergunta central da visualizacao e:
+
+\begin{quote}
+\textit{Da para uma nacao viver bem sem cobrar a conta do planeta?}
+\end{quote}
+
+A aplicacao organiza a analise em cinco atos narrativos. Cada ato responde uma parte da pergunta usando uma visualizacao especifica. A selecao de paises atravessa toda a pagina: quando o usuario escolhe um pais em uma visualizacao, os demais graficos passam a usar a mesma selecao.
+
+O objetivo foi sair de um dashboard generico e construir uma narrativa de dados com progressao: primeiro mostra a relacao entre IDH e CO2, depois traduz o consumo em ``quantas Terras'', em seguida questiona a contabilidade territorial das emissoes, mostra instalacoes emissoras reais e termina com uma area de exploracao livre.
+
+\section{Tecnologias utilizadas}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{4cm}>{\raggedright\arraybackslash}p{10cm}}
+\toprule
+\textbf{Tecnologia} & \textbf{Uso no projeto} \\
+\midrule
+HTML5 & Estrutura da narrativa, secoes dos atos, controles, botoes, paineis e rodape. \\
+CSS3 & Layout responsivo, tema claro/escuro, cards, topbar, scrollytelling, paineis, mapas e efeitos visuais. \\
+JavaScript ES Modules & Separacao da aplicacao em modulos independentes, cada um responsavel por uma visualizacao ou comportamento. \\
+D3.js & Graficos customizados: corrida de bolhas, mapas coropleticos, treemap, coordenadas paralelas, escalas, eixos, brushes e projecoes geograficas. \\
+Vega-Lite e Vega Embed & Graficos estatisticos do painel de comparacao: trajetoria, barras, consumo versus territorio e dumbbell multi-indicador. \\
+Three.js & Renderizacao dos globos 3D com WebGL, cameras, luzes, controles orbitais e interacao por clique. \\
+three-globe & Transformacao da malha GeoJSON em globo 3D coropletico com paises extrudados. \\
+deck.gl & Mapa de instalacoes emissoras reais, com camada de pontos e mapa base em tiles. \\
+Scrollama & Ativacao dos passos narrativos conforme a rolagem da pagina. \\
+IntersectionObserver & Inicializacao preguiçosa de visualizacoes pesadas e destaque da navegacao ativa. \\
+ResizeObserver & Recalculo dos graficos quando o tamanho dos paineis muda. \\
+Canvas 2D & Fundo vivo com particulas e globo translucido animado. \\
+localStorage & Persistencia do tema e do modo de visualizacao escolhido pelo usuario. \\
+\bottomrule
+\end{longtable}
+
+\section{Arquitetura da aplicacao}
+
+A aplicacao e modular. O arquivo \texttt{index.html} contem a estrutura da pagina e carrega os scripts. O arquivo \texttt{styles.css} concentra o design visual. Cada arquivo JavaScript cuida de uma parte especifica da experiencia.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{5cm}>{\raggedright\arraybackslash}p{9cm}}
+\toprule
+\textbf{Arquivo} & \textbf{Responsabilidade} \\
+\midrule
+\texttt{index.html} & Estrutura da pagina, topbar, hero, cinco atos, controles, paineis e importacao dos scripts. \\
+\texttt{styles.css} & Tema, layout, responsividade, cards, mapas, globos, paineis, scrollytelling e estados visuais. \\
+\texttt{state.js} & Estado compartilhado: paises selecionados, ano ativo e sistema de assinaturas. \\
+\texttt{theme.js} & Alternancia entre tema claro e escuro, persistencia e aviso aos outros modulos. \\
+\texttt{narrative.js} & Integracao com Scrollama, passos dos atos e navegacao ativa. \\
+\texttt{timeline.js} & Linha visual da narrativa acompanhando os atos iniciais. \\
+\texttt{ambient.js} & Fundo animado em canvas com particulas e globo translucido. \\
+\texttt{race.js} & Ato 1: corrida IDH versus CO2 com bolhas animadas. \\
+\texttt{footprint.js} & Ato 2: calculo e exibicao de ``quantas Terras''. \\
+\texttt{trade-map.js} & Ato 3: mapa territorio versus consumo e barras de importadores/exportadores. \\
+\texttt{facilities-map.js} & Ato 4: mapa deck.gl com instalacoes emissoras reais. \\
+\texttt{treemap.js} & Ato 4: treemap navegavel por setor e instalacao. \\
+\texttt{globe.js} & Ato 5: globos 3D, selecao de paises, tooltip, legenda e cameras sincronizadas. \\
+\texttt{map2d.js} & Ato 5: mapa 2D leve com seletor de indicador. \\
+\texttt{viewmode.js} & Alternancia entre Mapa 2D e Globos 3D no Ato 5. \\
+\texttt{comparison.js} & Ato 5: painel Vega-Lite com quatro graficos coordenados. \\
+\texttt{parallel.js} & Ato 5: coordenadas paralelas com filtro por brush. \\
+\texttt{fx.js} & Utilitario simples para aplicar transicao de fade em elementos atualizados. \\
+\bottomrule
+\end{longtable}
+
+\section{Dados utilizados}
+
+Os dados usados no produto web foram preparados previamente pelos scripts do projeto e gravados em arquivos estaticos dentro da pasta \texttt{web/threejs-globe/data/}.
+
+\begin{itemize}
+  \item \texttt{dev\_planet\_globe.json}: base pais-ano com indicadores como IDH, CO2 per capita, PIB per capita, populacao, expectativa de vida, escolaridade, CO2 acumulado e emissoes por consumo.
+  \item \texttt{dev\_planet\_narrative.json}: base resumida para os atos narrativos, incluindo valores calculados para ``quantas Terras'' e diferenca entre consumo e territorio.
+  \item \texttt{world.geojson}: geometria mundial simplificada com codigo ISO3 em \texttt{properties.iso\_code}.
+  \item \texttt{facilities/facilities\_global.json}: instalacoes emissoras globais vindas do Climate TRACE.
+  \item \texttt{facilities/<ISO3>.json}: arquivos por pais com instalacoes emissoras.
+\end{itemize}
+
+Os dados faltantes nao foram preenchidos por interpolacao ou imputacao. Quando um pais nao tem valor para determinado indicador, ele aparece em cinza ou e omitido daquele grafico especifico.
+
+\subsection{Fontes de dados}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}p{5.4cm}}
+\toprule
+\textbf{Fonte} & \textbf{Indicadores usados} & \textbf{Endereco principal} \\
+\midrule
+UNDP / Human Development Reports & IDH, expectativa de vida, anos esperados de escolaridade, anos medios de escolaridade, renda nacional bruta per capita, rank e grupo de desenvolvimento humano. & \url{https://hdr.undp.org/data-center} \\
+World Bank / World Development Indicators & PIB per capita PPP constante, populacao total, expectativa de vida, regiao e grupo de renda. & \url{https://api.worldbank.org/v2/} \\
+Our World in Data / CO2 and Greenhouse Gas Emissions & CO2 total, CO2 per capita, CO2 acumulado, CO2 por consumo, CO2 por consumo per capita, gases de efeito estufa, populacao e PIB auxiliar. & \url{https://github.com/owid/co2-data} \\
+Climate TRACE & Instalacoes emissoras, setor, tipo, latitude, longitude e CO2e por instalacao. & \url{https://climatetrace.org/data} \\
+Natural Earth / GeoJSON mundial preparado no projeto & Geometria dos paises e codigos ISO3 usados nos mapas e globos. & Arquivo local \texttt{web/threejs-globe/data/world.geojson}. \\
+CARTO basemaps & Tiles usados como mapa base no mapa de instalacoes com deck.gl. & \url{https://carto.com/basemaps/} \\
+\bottomrule
+\end{longtable}
+
+\subsection{Fontes por visualizacao}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{9.9cm}}
+\toprule
+\textbf{Visualizacao} & \textbf{Fontes usadas} \\
+\midrule
+Ato 1: corrida IDH versus CO2 & UNDP para IDH; OWID para CO2 per capita; World Bank e OWID para populacao; World Bank para regiao quando usada na cor. \\
+Ato 2: quantas Terras & OWID para CO2 per capita; referencia de limite sustentavel derivada do orcamento de carbono citado no texto metodologico; base narrativa calculada por \texttt{scripts/13\_prepare\_narrative\_data.py}. \\
+Ato 3: mapa territorio versus consumo & OWID para CO2 territorial e CO2 baseado em consumo; GeoJSON mundial para forma dos paises; Vega-Lite para barras de saldo consumo menos territorio. \\
+Ato 4: mapa de instalacoes & Climate TRACE para instalacoes, emissoes, setores e coordenadas; CARTO para mapa base; dados de selecao vindos do estado compartilhado. \\
+Ato 4: treemap & Climate TRACE para emissao por instalacao e setor; agregacao local por setor e por instalacao. \\
+Ato 5: mapa 2D & UNDP, World Bank e OWID na base pais-ano; GeoJSON mundial para forma dos paises. \\
+Ato 5: globos 3D & UNDP, World Bank e OWID na base pais-ano; GeoJSON mundial para poligonos sobre esfera; Three.js e three-globe para renderizacao. \\
+Ato 5: painel Vega-Lite & UNDP para desenvolvimento; OWID para CO2 territorial, consumo e acumulado; World Bank para PIB e populacao. \\
+Ato 5: coordenadas paralelas & UNDP para IDH, expectativa de vida e escolaridade; World Bank para PIB per capita PPP; OWID para CO2 per capita. \\
+\bottomrule
+\end{longtable}
+
+\section{Estado compartilhado e coordenacao}
+
+O arquivo \texttt{state.js} implementa o mecanismo de coordenacao entre visualizacoes. Ele guarda:
+
+\begin{itemize}
+  \item o ano selecionado;
+  \item ate dois paises selecionados;
+  \item as cores fixas dos paises A e B;
+  \item uma lista de assinantes que reagem quando o estado muda.
+\end{itemize}
+
+Quando o usuario clica em um pais no globo, no mapa 2D, na corrida de bolhas ou nas coordenadas paralelas, o modulo chama a funcao de selecao do estado. Os outros modulos recebem a mudanca e redesenham destaques, paineis e graficos. Se o usuario seleciona um terceiro pais, o pais mais antigo sai da selecao, mantendo no maximo dois paises.
+
+\section{Scrollytelling}
+
+A narrativa usa Scrollama para ativar passos conforme a rolagem. Cada ato com scrollytelling tem uma area fixa com grafico e uma coluna de texto com passos. Quando um passo entra na area ativa da tela, o modulo \texttt{narrative.js} chama a acao correspondente:
+
+\begin{itemize}
+  \item no Ato 1, muda o ano da corrida ou destaca o ponto ideal;
+  \item no Ato 2, troca o pais exibido em ``Quantas Terras'';
+  \item no Ato 3, alterna entre emissoes por territorio, consumo ou barras liquidas.
+\end{itemize}
+
+O mesmo arquivo tambem recalcula o alinhamento dos passos usando altura real dos graficos. Isso evita que o texto ative cedo demais ou tarde demais quando fontes, graficos ou dimensoes mudam.
+
+\section{Ato 1: a corrida do ponto ideal}
+
+\subsection{Objetivo}
+
+O primeiro ato mostra a relacao entre desenvolvimento humano e emissoes de CO2 per capita entre 1990 e 2023. A ideia e responder quem conseguiu chegar perto de alto IDH com baixa emissao.
+
+\subsection{Tecnologia}
+
+A visualizacao foi construida com D3.js. O grafico e uma dispersao animada no estilo Gapminder:
+
+\begin{itemize}
+  \item eixo X: IDH;
+  \item eixo Y: CO2 per capita em escala logaritmica;
+  \item tamanho da bolha: populacao;
+  \item cor da bolha: regiao;
+  \item tempo: ano selecionado entre 1990 e 2023.
+\end{itemize}
+
+\subsection{Como foi feito}
+
+O arquivo \texttt{race.js} carrega \texttt{dev\_planet\_narrative.json}, filtra os dados por ano e desenha as bolhas com escalas D3. A cada mudanca de ano, as bolhas recebem novas posicoes, tamanhos e rotulos. O quadrante verde marca a combinacao de IDH alto com baixa emissao.
+
+O usuario pode clicar em paises para fixa-los. A selecao e enviada para \texttt{state.js}, permitindo que os mesmos paises aparecam nos outros atos. O grafico tambem usa transicoes suaves para o movimento temporal das bolhas.
+
+A construcao segue quatro passos principais: primeiro os registros sao indexados por ano; depois sao criadas escalas para IDH, CO2 per capita e populacao; em seguida o D3 faz o \textit{data join} das bolhas; por fim os passos do scrollytelling chamam metodos do controlador da corrida para mudar ano, reiniciar ou focar o quadrante verde. A escala logaritmica no eixo de CO2 foi escolhida porque as emissoes per capita variam muito entre paises e uma escala linear deixaria paises de baixa emissao comprimidos.
+
+\subsection{Fonte da visualizacao}
+
+Esta visualizacao usa IDH do UNDP, CO2 per capita da OWID, populacao da base integrada com prioridade do World Bank e regioes/metadados da base integrada. A malha geografica nao e usada neste ato, pois o grafico trabalha diretamente com linhas pais-ano.
+
+\section{Ato 2: quantas Terras}
+
+\subsection{Objetivo}
+
+O segundo ato traduz CO2 per capita para uma medida intuitiva: quantos planetas seriam necessarios se toda a populacao mundial vivesse como determinado pais.
+
+\subsection{Tecnologia}
+
+A visualizacao usa HTML, CSS e JavaScript puro com dados carregados por \texttt{fetch}. O modulo responsavel e \texttt{footprint.js}.
+
+\subsection{Como foi feito}
+
+O calculo divide o CO2 per capita do pais por um limite de referencia de aproximadamente 2,3 toneladas por pessoa por ano. Esse limite representa uma divisao per capita do orcamento de carbono compativel com 1,5 a 2 graus Celsius.
+
+\[
+\mathrm{planetas} = \frac{\mathrm{CO2\ per\ capita\ do\ pais}}{2{,}3}
+\]
+
+O resultado aparece em forma textual e visual. Para evitar excesso visual, existe um limite maximo de globos renderizados. O seletor de pais permite explorar outros casos alem dos passos narrativos.
+
+Na implementacao, cada pais recebe o registro mais recente com CO2 per capita valido. Esses registros alimentam tanto os passos narrativos quanto o seletor manual. Quando o usuario escolhe um pais, o modulo atualiza o numero de planetas, o texto explicativo e os icones visuais. A visualizacao foi mantida simples de proposito: o foco e transformar uma medida tecnica, toneladas de CO2 por pessoa, em uma comparacao de facil leitura.
+
+\subsection{Fonte da visualizacao}
+
+A medida de CO2 per capita vem da OWID. O limite de 2,3 toneladas por pessoa por ano e um parametro metodologico usado como referencia aproximada de um orcamento de carbono compativel com 1,5 a 2 graus Celsius. O valor final de planetas e calculado no preparo narrativo e usado no arquivo \texttt{dev\_planet\_narrative.json}.
+
+\section{Ato 3: o mapa que mente}
+
+\subsection{Objetivo}
+
+O terceiro ato mostra que contar emissoes apenas pelo territorio pode esconder o carbono embutido no consumo de paises ricos. O mapa compara duas formas de contabilidade:
+
+\begin{itemize}
+  \item emissao por territorio: onde o CO2 e produzido;
+  \item emissao por consumo: quem consome os bens associados ao CO2.
+\end{itemize}
+
+\subsection{Tecnologia}
+
+O mapa foi feito com D3.js, usando projeção Natural Earth e GeoJSON mundial. As barras de importadores e exportadores liquidos foram feitas com Vega-Lite.
+
+\subsection{Como foi feito}
+
+O arquivo \texttt{trade-map.js} carrega o GeoJSON e os dados narrativos. O pais recebe cor pela escala sequencial \texttt{d3.interpolateYlOrRd}. Quando o usuario troca o modo, o mapa e redesenhado com o indicador correspondente.
+
+No terceiro passo, o mapa e ocultado e entra o grafico de barras. O valor usado e:
+
+\[
+\mathrm{CO2\ liquido\ importado} = \mathrm{CO2\ por\ consumo} - \mathrm{CO2\ por\ territorio}
+\]
+
+Valores positivos indicam importadores liquidos de carbono. Valores negativos indicam exportadores liquidos.
+
+O mapa usa o mesmo desenho visual para os dois modos, mudando apenas o indicador que alimenta a cor. Isso permite comparar territorio e consumo sem alterar a leitura espacial. No modo de barras, os paises sao ordenados pelo saldo liquido e separados entre importadores e exportadores. A transicao entre mapa e barras funciona como uma virada narrativa: primeiro o usuario ve o padrao espacial, depois entende quais paises estao deslocando carbono para fora de seu territorio.
+
+\subsection{Fonte da visualizacao}
+
+As emissoes territoriais e por consumo vem da OWID. A diferenca entre consumo e territorio e calculada na base narrativa. A geometria dos paises vem do arquivo \texttt{world.geojson}. O grafico de barras usa esses mesmos valores agregados por pais.
+
+\section{Ato 4: de onde vem o CO2}
+
+\subsection{Objetivo}
+
+O quarto ato sai da escala nacional e mostra fontes emissoras reais, como usinas, refinarias, siderurgicas, cimenteiras e instalacoes industriais.
+
+\subsection{Mapa de instalacoes}
+
+O mapa usa deck.gl com uma camada de pontos sobre tiles da CARTO. Cada ponto representa uma instalacao emissora do Climate TRACE.
+
+\begin{itemize}
+  \item posicao: latitude e longitude da instalacao;
+  \item tamanho: proporcional a emissao;
+  \item cor: setor economico;
+  \item opacidade: destaca paises selecionados e reduz o restante.
+\end{itemize}
+
+O arquivo \texttt{facilities-map.js} tambem altera o enquadramento do mapa quando ha paises selecionados. Assim, a visualizacao aproxima as instalacoes dos paises escolhidos.
+
+Em alto nivel, o mapa cria uma instancia deck.gl, adiciona uma camada de tiles para o fundo e uma camada de pontos para as instalacoes. O raio de cada ponto usa a raiz quadrada da emissao para evitar que instalacoes muito grandes dominem completamente a tela. A legenda e gerada a partir dos setores presentes nos dados exibidos. Quando nenhum pais esta selecionado, o mapa mostra o conjunto global; quando ha selecao, os pontos dos paises escolhidos ficam mais fortes e os demais perdem opacidade.
+
+\subsection{Fonte da visualizacao}
+
+Os pontos, setores, tipos, coordenadas e emissoes vem do Climate TRACE. O mapa base vem dos tiles da CARTO. A selecao de paises vem de \texttt{state.js}, por isso o mapa responde a cliques feitos em outros atos.
+
+\subsection{Treemap}
+
+O treemap usa D3.js e aparece abaixo do mapa de instalacoes. Ele resume emissoes por setor. Ao clicar em um setor, o grafico abre o nivel de instalacoes daquele setor. O botao de voltar retorna ao nivel agregado.
+
+O treemap recebe uma lista de instalacoes e agrupa os valores por setor. No primeiro nivel, cada retangulo representa um setor economico. Quando o usuario clica em um setor, o modulo substitui a hierarquia por instalacoes individuais daquele setor, mantendo area proporcional as emissoes. Essa escolha cria um caminho de leitura em duas escalas: primeiro setor, depois emissor concreto.
+
+\subsection{Fonte da visualizacao}
+
+O treemap usa os mesmos dados do Climate TRACE usados no mapa de instalacoes. A diferenca e que o mapa usa latitude e longitude, enquanto o treemap usa apenas setor, nome da instalacao e volume de emissoes.
+
+\section{Ato 5: explore os dados}
+
+\subsection{Objetivo}
+
+O quinto ato e a parte exploratoria do produto. Ele permite que o usuario compare paises, anos e indicadores fora da ordem narrativa dos atos anteriores.
+
+\subsection{Organizacao da interface}
+
+A area foi organizada em tres blocos:
+
+\begin{enumerate}
+  \item \textbf{Configuracao}: modo de visualizacao, ano e indicadores.
+  \item \textbf{Paises selecionados}: painel lateral com pais A, pais B e botao de limpar.
+  \item \textbf{Visao principal}: mapa 2D ou globos 3D.
+\end{enumerate}
+
+O modo Mapa 2D mostra apenas o indicador do mapa. O modo Globos 3D mostra os indicadores dos dois globos e a opcao de sincronizar rotacao e zoom.
+
+\subsection{Mapa 2D}
+
+O mapa 2D foi criado em \texttt{map2d.js} com D3.js. Ele usa o mesmo GeoJSON mundial e a mesma base pais-ano dos globos. A cor depende do indicador selecionado. Indicadores numericos usam escala linear; o indicador categorico de perfil desenvolvimento-carbono usa cores por categoria.
+
+O mapa foi incluido como alternativa leve aos globos 3D. Ele e mais simples de carregar e facilita a comparacao rapida em maquinas com menor capacidade grafica.
+
+O desenho do mapa 2D usa uma projecao Natural Earth do D3. Para indicadores numericos, o codigo calcula minimo e maximo do ano ativo e cria uma escala linear interpolada entre duas cores. Para o indicador categorico, usa uma tabela fixa de cores por perfil. O tooltip mostra pais, ano e valor formatado. O clique no pais atualiza a selecao global, entao o painel lateral e os graficos inferiores tambem mudam.
+
+\subsection{Fonte da visualizacao}
+
+O mapa 2D usa a base \texttt{dev\_planet\_globe.json}, que integra UNDP, World Bank e OWID. A geometria vem de \texttt{world.geojson}. Cada indicador do seletor pode ter cobertura diferente, por isso paises sem dado ficam em cor de ausente.
+
+\subsection{Globos 3D}
+
+Os globos foram implementados em \texttt{globe.js} com Three.js, OrbitControls e three-globe. Existem dois renderizadores lado a lado:
+
+\begin{itemize}
+  \item globo esquerdo: indicador independente;
+  \item globo direito: outro indicador no mesmo ano;
+  \item ambos usam a mesma selecao de paises;
+  \item as cameras podem ser sincronizadas.
+\end{itemize}
+
+O globo transforma os paises do GeoJSON em poligonos sobre uma esfera. A cor do pais vem do indicador selecionado. O clique usa raycasting para identificar qual pais foi atingido. Como nem todo clique encontra diretamente o poligono, o codigo tambem converte o ponto 3D em latitude/longitude e procura o pais correspondente.
+
+A cena 3D possui camera, luz ambiente, luz direcional, estrelas de fundo e controles orbitais. Cada globo tem seu proprio renderer, mas ambos compartilham o mesmo ano e o mesmo estado de selecao. Quando a sincronizacao esta ativa, o movimento de camera de um globo e copiado para o outro. Quando o usuario troca para o mapa 2D, a renderizacao dos globos e pausada para economizar GPU.
+
+\subsection{Fonte da visualizacao}
+
+Os globos usam \texttt{dev\_planet\_globe.json} para indicadores pais-ano e \texttt{world.geojson} para os poligonos dos paises. Os indicadores de desenvolvimento vem do UNDP, renda/populacao do World Bank e emissoes da OWID.
+
+\subsection{Painel de comparacao}
+
+O arquivo \texttt{comparison.js} usa Vega-Lite para gerar quatro graficos:
+
+\begin{enumerate}
+  \item \textbf{Trajetoria desenvolvimento versus emissao}: dispersao conectada de IDH e CO2 per capita entre 1990 e o ano selecionado.
+  \item \textbf{Responsabilidade historica}: barras de CO2 acumulado.
+  \item \textbf{Territorio versus consumo}: barras pareadas comparando emissao produzida e emissao consumida.
+  \item \textbf{Dumbbell multi-indicador}: comparacao normalizada entre IDH, expectativa de vida, escolaridade, PIB per capita e CO2 per capita.
+\end{enumerate}
+
+Esses graficos so aparecem quando ha paises selecionados. Quando falta dado de consumo, a barra correspondente e omitida e uma nota informa a ausencia.
+
+O painel foi implementado com especificacoes Vega-Lite geradas em JavaScript. Cada grafico recebe apenas os paises selecionados e o ano ativo. A trajetoria usa a serie historica ate o ano selecionado; as barras usam os valores mais recentes daquele ano; o dumbbell normaliza cada indicador entre 0 e 1 usando a distribuicao global daquele ano. Essa normalizacao permite comparar indicadores de unidades diferentes em uma mesma escala visual.
+
+\subsection{Fonte da visualizacao}
+
+O painel usa a base \texttt{dev\_planet\_globe.json}. A trajetoria usa IDH do UNDP e CO2 per capita da OWID. A responsabilidade historica usa CO2 acumulado da OWID. A comparacao territorio versus consumo usa dados de consumo da OWID. O dumbbell combina UNDP, World Bank e OWID.
+
+\subsection{Coordenadas paralelas}
+
+As coordenadas paralelas foram feitas em \texttt{parallel.js} com D3.js. Cada linha representa um pais. Os eixos representam indicadores como IDH, expectativa de vida, escolaridade, PIB e CO2 per capita.
+
+O usuario pode pincelar um eixo verticalmente. O brush filtra as linhas nos demais eixos. Clicar em uma linha seleciona o pais no estado compartilhado, atualizando os outros graficos.
+
+Na pratica, o modulo cria uma escala vertical independente para cada indicador e uma escala horizontal com os nomes dos eixos. Cada pais vira uma linha poligonal conectando suas posicoes nos eixos. O brush guarda intervalos ativos por eixo; depois o codigo testa quais linhas passam por todos os filtros. Paises selecionados sao redesenhados por cima para nao sumirem no conjunto.
+
+\subsection{Fonte da visualizacao}
+
+As coordenadas paralelas usam IDH, expectativa de vida e escolaridade do UNDP; PIB per capita PPP do World Bank; CO2 per capita da OWID; e o perfil desenvolvimento-carbono calculado na base integrada.
+
+\section{Efeitos e interacoes}
+
+\subsection{Tema claro e escuro}
+
+O botao da topbar alterna entre tema claro e escuro. O arquivo \texttt{theme.js} aplica o tema no atributo \texttt{data-theme} do HTML e salva a escolha no \texttt{localStorage}. Os outros modulos leem variaveis CSS para adaptar cores de mapas, textos, linhas e fundos.
+
+\subsection{Topbar e navegacao}
+
+A topbar fica presa ao topo da tela com \texttt{position: sticky}. Ela contem a marca do projeto, links para os atos e o botao de tema. O modulo \texttt{narrative.js} usa \texttt{IntersectionObserver} para destacar o link do ato visivel.
+
+\subsection{Fundo animado}
+
+O fundo usa um canvas fixo atras do conteudo. O arquivo \texttt{ambient.js} desenha particulas leves e um globo translucido. A animacao reage ao scroll da pagina: conforme o usuario desce, o globo muda de cor e sugere aquecimento/acumulacao de carbono.
+
+\subsection{Transicoes}
+
+O arquivo \texttt{fx.js} reaplica uma classe CSS de fade quando um conteudo muda. Isso evita cortes bruscos em paineis, mapas e textos atualizados.
+
+\subsection{Responsividade}
+
+O CSS usa grades fluidas, \texttt{minmax}, \texttt{auto-fit}, media queries e alturas relativas a viewport. Em telas menores, os paineis passam de colunas para pilhas verticais. A navegacao dos atos tambem se simplifica.
+
+\subsection{Performance}
+
+Algumas escolhas foram feitas para reduzir custo computacional:
+
+\begin{itemize}
+  \item o mapa 2D e o modo padrao do Ato 5, por ser mais leve;
+  \item os globos 3D pausam quando nao estao visiveis ou quando o usuario usa o mapa 2D;
+  \item visualizacoes pesadas inicializam de forma preguiçosa com \texttt{IntersectionObserver};
+  \item \texttt{ResizeObserver} evita recalculos desnecessarios fora das mudancas de tamanho;
+  \item o canvas de fundo respeita \texttt{prefers-reduced-motion}.
+\end{itemize}
+
+\section{Como executar}
+
+Para gerar ou atualizar os dados principais da parte web, use:
+
+\begin{verbatim}
+.venv/bin/python scripts/11_prepare_threejs_globe_data.py
+.venv/bin/python scripts/12_download_climate_trace.py
+.venv/bin/python scripts/13_prepare_narrative_data.py
+\end{verbatim}
+
+Para abrir a aplicacao, execute um servidor local na raiz do projeto:
+
+\begin{verbatim}
+.venv/bin/python -m http.server 8000
+\end{verbatim}
+
+Depois acesse:
+
+\begin{verbatim}
+http://localhost:8000/web/threejs-globe/
+\end{verbatim}
+
+\section{Limitacoes}
+
+\begin{itemize}
+  \item A geometria mundial e simplificada, entao fronteiras pequenas podem perder detalhe.
+  \item Nem todos os paises possuem todos os indicadores em todos os anos.
+  \item Emissoes por consumo possuem cobertura menor que emissoes territoriais.
+  \item Os dados de instalacoes dependem da cobertura do Climate TRACE.
+  \item Globos 3D dependem de WebGL e podem ser pesados em maquinas fracas.
+\end{itemize}
+
+\section{Ajustes finais de interface e manutencao}
+
+Durante o polimento final da parte web, foram feitos ajustes de organizacao e manutencao:
+
+\begin{itemize}
+  \item a barra fina de progresso de leitura foi removida para deixar o topo menos carregado;
+  \item a topbar foi restaurada com nome do projeto, navegacao dos atos e seletor de tema;
+  \item o Ato 5 foi reorganizado em tres blocos: configuracao, paises selecionados e visualizacao principal;
+  \item o seletor entre Mapa 2D e Globos 3D passou a controlar quais configuracoes aparecem;
+  \item o Mapa 2D foi mantido como modo padrao por ser mais leve;
+  \item os comentarios dos arquivos web foram limpos, mantendo o codigo mais direto e facil de revisar.
+\end{itemize}
+
+\section{Conclusao}
+
+O produto final combina narrativa, coordenacao entre visualizacoes e exploracao livre. Cada ato foi desenhado para ter uma funcao comunicativa: apresentar o problema, tornar a escala pessoal, revelar uma distorcao de contabilidade, mostrar emissores concretos e permitir comparacao detalhada. A integracao entre D3.js, Vega-Lite, Three.js, deck.gl, Scrollama e estado compartilhado permitiu construir uma experiencia web interativa e coordenada, mantendo os dados preparados localmente e servidos de forma estatica.
+
+\end{document}

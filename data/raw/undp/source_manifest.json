@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-05-11T14:18:16-03:00",
+  "source": "UNDP Human Development Reports",
+  "file": "HDR25_Composite_indices_complete_time_series.csv",
+  "url": "https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv",
+  "documentation_urls": [
+    "https://hdr.undp.org/data-center",
+    "https://hdr.undp.org/data-center/documentation-and-downloads",
+    "https://hdr.undp.org/data-center/human-development-index"
+  ],
+  "notes": "All composite indices and components complete time series, prioritized for 1990-2023."
+}

@@ -1,0 +1,11 @@
+country,present,iso_code,hdi_latest_year,co2_per_capita_latest_year,region,income_group
+Brazil,True,BRA,2023.0,2023.0,Latin America & Caribbean,Upper middle income
+United States,True,USA,2023.0,2023.0,North America,High income
+China,True,CHN,2023.0,2023.0,East Asia & Pacific,Upper middle income
+India,True,IND,2023.0,2023.0,South Asia,Lower middle income
+Germany,True,DEU,2023.0,2023.0,Europe & Central Asia,High income
+France,True,FRA,2023.0,2023.0,Europe & Central Asia,High income
+United Kingdom,True,GBR,2023.0,2023.0,Europe & Central Asia,High income
+Japan,True,JPN,2023.0,2023.0,East Asia & Pacific,High income
+South Africa,True,ZAF,2023.0,2023.0,Sub-Saharan Africa,Upper middle income
+Nigeria,True,NGA,2023.0,2023.0,Sub-Saharan Africa,Lower middle income

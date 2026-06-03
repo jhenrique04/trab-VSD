@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-05-11T14:18:25-03:00",
+  "source": "World Bank World Development Indicators API",
+  "api": "https://api.worldbank.org/v2",
+  "documentation_url": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation",
+  "indicators": {
+    "NY.GDP.PCAP.PP.KD": "GDP per capita, PPP (constant 2021 international $)",
+    "SP.POP.TOTL": "Population, total",
+    "SP.DYN.LE00.IN": "Life expectancy at birth, total (years)"
+  },
+  "date_range": "1990-2023",
+  "notes": "One raw CSV per indicator plus a consolidated long table and country metadata."
+}

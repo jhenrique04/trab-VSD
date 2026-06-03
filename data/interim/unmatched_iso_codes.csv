@@ -1,0 +1,35 @@
+iso_code,country_undp,country_worldbank,country_owid,in_undp,in_worldbank,in_owid,notes
+ABW,,Aruba,Aruba,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+AIA,,,Anguilla,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+ASM,,American Samoa,,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+ATA,,,Antarctica,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+BES,,,Bonaire Sint Eustatius and Saba,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+BMU,,Bermuda,Bermuda,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+CHI,,Channel Islands,,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+COK,,,Cook Islands,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+CUW,,Curacao,Curacao,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+CXR,,,Christmas Island,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+CYM,,Cayman Islands,,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+FRO,,Faroe Islands,Faroe Islands,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+GIB,,Gibraltar,,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+GRL,,Greenland,Greenland,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+GUM,,Guam,,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+IMN,,Isle of Man,,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+MAC,,"Macao SAR, China",Macao,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+MAF,,St. Martin (French part),,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+MNP,,Northern Mariana Islands,,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+MSR,,,Montserrat,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+NCL,,New Caledonia,New Caledonia,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+NIU,,,Niue,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+PRI,,Puerto Rico (US),,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+PYF,,French Polynesia,French Polynesia,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+SHN,,,Saint Helena,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+SPM,,,Saint Pierre and Miquelon,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+SXM,,Sint Maarten (Dutch part),Sint Maarten (Dutch part),False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+TCA,,Turks and Caicos Islands,Turks and Caicos Islands,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+TWN,,,Taiwan,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+VAT,,,Vatican,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+VGB,,British Virgin Islands,British Virgin Islands,False,True,True,Presence mismatch across source-level country sets; not necessarily a join error.
+VIR,,Virgin Islands (U.S.),,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.
+WLF,,,Wallis and Futuna,False,False,True,Presence mismatch across source-level country sets; not necessarily a join error.
+XKX,,Kosovo,,False,True,False,Presence mismatch across source-level country sets; not necessarily a join error.

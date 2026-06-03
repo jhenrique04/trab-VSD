@@ -1,0 +1,35 @@
+column_name,label_pt,label_en,description,unit,source,original_column,treatment_notes
+iso_code,Codigo ISO3,ISO3 code,Codigo de pais/territorio com tres letras usado como chave de integracao.,,All sources,iso3; countryiso3code; iso_code,Padronizado em maiusculas; agregados removidos da base principal.
+country,Pais,Country,Nome do pais em ingles.,,UNDP preferred; World Bank; OWID,country; country.value,"Prioridade de nomes: UNDP, depois World Bank, depois OWID."
+year,Ano,Year,Ano calendario da observacao pais-ano.,year,All sources,year; date; *_YYYY,Convertido para inteiro; escopo 1990-2023.
+region,Regiao,Region,Classificacao regional do pais.,,World Bank; UNDP fallback,region.value; region,Agregados World Bank removidos antes da integracao.
+income_group,Grupo de renda,Income group,Classificacao de renda do World Bank.,,World Bank,incomeLevel.value,Sem preenchimento automatico quando ausente.
+hdi_development_group,Grupo de desenvolvimento humano,Human development group,Grupo de desenvolvimento humano publicado pelo UNDP.,,UNDP HDR,hdicode,Mantido como atributo auxiliar.
+hdi_category,Categoria IDH,HDI category,Categoria calculada a partir do IDH.,,Calculated,hdi,Muito alto >=0.800; Alto >=0.700; Medio >=0.550; Baixo <0.550.
+co2_per_capita_category,Categoria CO2 per capita,CO2 per capita category,Categoria calculada de emissoes de CO2 per capita.,,Calculated,co2_per_capita,Muito alto >=15; Alto >=8; Medio >=3; Baixo <3.
+development_carbon_profile,Perfil desenvolvimento-carbono,Development-carbon profile,Perfil exploratorio que combina alto desenvolvimento e emissao acima da mediana global do ano.,,Calculated,hdi; co2_per_capita,Alto desenvolvimento se hdi >=0.800; alta emissao se co2_per_capita >= mediana global do ano.
+hdi,Indice de Desenvolvimento Humano,Human Development Index,Human Development Index,index (0-1),UNDP HDR,hdi_YYYY,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+hdi_rank,Ranking IDH,HDI rank,HDI rank,rank,UNDP HDR,hdi_rank_2023,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+life_expectancy,Expectativa de vida,Life expectancy at birth,Life expectancy at birth,years,UNDP HDR; World Bank fallback,le_YYYY; SP.DYN.LE00.IN,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+expected_years_schooling,Anos esperados de escolaridade,Expected years of schooling,Expected years of schooling,years,UNDP HDR,eys_YYYY,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+mean_years_schooling,Anos medios de escolaridade,Mean years of schooling,Mean years of schooling,years,UNDP HDR,mys_YYYY,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+gni_per_capita,RNB per capita,Gross national income per capita,Gross national income per capita,2017 PPP $,UNDP HDR,gnipc_YYYY,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+gdp_per_capita_ppp_constant,PIB per capita PPC constante,"GDP per capita, PPP","GDP per capita, PPP",constant 2021 international $,World Bank WDI,NY.GDP.PCAP.PP.KD,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+population,Populacao,Population,Population,persons,World Bank WDI; OWID fallback; UNDP fallback,SP.POP.TOTL; population; pop_total_YYYY,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+co2_total_mt,CO2 total,CO2 emissions,CO2 emissions,million tonnes,Our World in Data,co2,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+co2_per_capita,CO2 per capita,CO2 emissions per capita,CO2 emissions per capita,tonnes per person,Our World in Data,co2_per_capita,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+cumulative_co2,CO2 acumulado,Cumulative CO2 emissions,Cumulative CO2 emissions,million tonnes,Our World in Data,cumulative_co2,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+consumption_co2,CO2 baseado em consumo,Consumption-based CO2 emissions,Consumption-based CO2 emissions,million tonnes,Our World in Data,consumption_co2,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+consumption_co2_per_capita,CO2 de consumo per capita,Consumption-based CO2 per capita,Consumption-based CO2 per capita,tonnes per person,Our World in Data,consumption_co2_per_capita,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+total_ghg,GEE total,Total greenhouse gas emissions,Total greenhouse gas emissions,million tonnes CO2-equivalent,Our World in Data,total_ghg,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+ghg_per_capita,GEE per capita,Greenhouse gas emissions per capita,Greenhouse gas emissions per capita,tonnes CO2-equivalent per person,Our World in Data,ghg_per_capita,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+hdi_to_co2_ratio,Razao IDH/CO2 per capita,HDI to CO2 per capita ratio,HDI to CO2 per capita ratio,index per tonne per person,Calculated,hdi / co2_per_capita,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+co2_per_capita_change_1990_latest,Mudanca CO2 per capita 1990-ultimo,CO2 per capita change from 1990 to latest,CO2 per capita change from 1990 to latest,tonnes per person,Calculated,co2_per_capita,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+hdi_change_1990_latest,Mudanca IDH 1990-ultimo,HDI change from 1990 to latest,HDI change from 1990 to latest,index points,Calculated,hdi,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+gdp_per_capita_change_1990_latest,Mudanca PIB per capita 1990-ultimo,GDP per capita PPP change from 1990 to latest,GDP per capita PPP change from 1990 to latest,constant 2021 international $,Calculated,gdp_per_capita_ppp_constant,Sem interpolacao; valores ausentes permanecem vazios/NaN.
+life_expectancy_undp,Expectativa de vida UNDP,UNDP life expectancy,Expectativa de vida ao nascer publicada pelo UNDP.,years,UNDP HDR,le_YYYY,Mantida para auditoria da escolha de life_expectancy.
+life_expectancy_wb,Expectativa de vida World Bank,World Bank life expectancy,Expectativa de vida ao nascer publicada pelo World Bank.,years,World Bank WDI,SP.DYN.LE00.IN,Usada como fallback quando UNDP esta ausente.
+population_wb,Populacao World Bank,World Bank population,Populacao total publicada pelo World Bank.,persons,World Bank WDI,SP.POP.TOTL,Fonte preferencial para population.
+population_owid,Populacao OWID,OWID population,Populacao no arquivo de CO2 da OWID.,persons,Our World in Data,population,Usada como fallback para population.
+population_undp,Populacao UNDP,UNDP population,Populacao no arquivo do UNDP.,persons,UNDP HDR,pop_total_YYYY,Usada como fallback final para population.
+gdp_owid,PIB OWID,OWID GDP,PIB no arquivo de CO2 da OWID.,international dollars,Our World in Data,gdp,Mantido para validacao; nao substitui o indicador World Bank.

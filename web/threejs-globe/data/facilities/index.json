@@ -1,0 +1,917 @@
+{
+  "generated_at": "2026-06-02T15:38:56-03:00",
+  "countries": {
+    "BRA": {
+      "count": 80,
+      "total_emissions": 159928441.2
+    },
+    "USA": {
+      "count": 80,
+      "total_emissions": 1019306054.8
+    },
+    "CHN": {
+      "count": 80,
+      "total_emissions": 1437591084.5
+    },
+    "DEU": {
+      "count": 80,
+      "total_emissions": 222243610.1
+    },
+    "NOR": {
+      "count": 50,
+      "total_emissions": 14826668.9
+    },
+    "ABW": {
+      "count": 1,
+      "total_emissions": 749610.0
+    },
+    "AFG": {
+      "count": 12,
+      "total_emissions": 1693813.7
+    },
+    "AGO": {
+      "count": 18,
+      "total_emissions": 6719599.3
+    },
+    "AIA": {
+      "count": 19,
+      "total_emissions": 65335.1
+    },
+    "ALB": {
+      "count": 16,
+      "total_emissions": 2122128.1
+    },
+    "AND": {
+      "count": 7,
+      "total_emissions": 52486.2
+    },
+    "ARE": {
+      "count": 60,
+      "total_emissions": 250756477.4
+    },
+    "ARG": {
+      "count": 80,
+      "total_emissions": 117694623.0
+    },
+    "ARM": {
+      "count": 7,
+      "total_emissions": 3440422.9
+    },
+    "ASM": {
+      "count": 21,
+      "total_emissions": 192773.0
+    },
+    "ATA": {
+      "count": 20,
+      "total_emissions": 548183.2
+    },
+    "ATG": {
+      "count": 18,
+      "total_emissions": 688714.3
+    },
+    "AUS": {
+      "count": 80,
+      "total_emissions": 275723970.9
+    },
+    "AUT": {
+      "count": 58,
+      "total_emissions": 26927975.8
+    },
+    "AZE": {
+      "count": 30,
+      "total_emissions": 23039744.2
+    },
+    "BDI": {
+      "count": 120,
+      "total_emissions": 1931691.5
+    },
+    "BEL": {
+      "count": 80,
+      "total_emissions": 30161914.1
+    },
+    "BEN": {
+      "count": 5,
+      "total_emissions": 1594003.0
+    },
+    "BES": {
+      "count": 20,
+      "total_emissions": 446975.1
+    },
+    "BFA": {
+      "count": 5,
+      "total_emissions": 967226.0
+    },
+    "BGD": {
+      "count": 80,
+      "total_emissions": 79200545.7
+    },
+    "BGR": {
+      "count": 77,
+      "total_emissions": 19381339.8
+    },
+    "BHR": {
+      "count": 12,
+      "total_emissions": 40456060.3
+    },
+    "BHS": {
+      "count": 3,
+      "total_emissions": 947038.0
+    },
+    "BIH": {
+      "count": 31,
+      "total_emissions": 11255831.6
+    },
+    "BLR": {
+      "count": 31,
+      "total_emissions": 19538077.3
+    },
+    "BLZ": {
+      "count": 2,
+      "total_emissions": 20394.6
+    },
+    "BMU": {
+      "count": 2,
+      "total_emissions": 347434.0
+    },
+    "BOL": {
+      "count": 27,
+      "total_emissions": 12960281.6
+    },
+    "BRB": {
+      "count": 1,
+      "total_emissions": 403960.0
+    },
+    "BRN": {
+      "count": 10,
+      "total_emissions": 6995853.9
+    },
+    "BTN": {
+      "count": 6,
+      "total_emissions": 938833.3
+    },
+    "BWA": {
+      "count": 10,
+      "total_emissions": 3960746.0
+    },
+    "CAF": {
+      "count": 52,
+      "total_emissions": 1899039.1
+    },
+    "CAN": {
+      "count": 80,
+      "total_emissions": 405529644.4
+    },
+    "CHE": {
+      "count": 32,
+      "total_emissions": 2686733.2
+    },
+    "CHL": {
+      "count": 80,
+      "total_emissions": 36524215.0
+    },
+    "CIV": {
+      "count": 8,
+      "total_emissions": 5907536.6
+    },
+    "CMR": {
+      "count": 14,
+      "total_emissions": 4446472.1
+    },
+    "COD": {
+      "count": 80,
+      "total_emissions": 14617574.7
+    },
+    "COG": {
+      "count": 8,
+      "total_emissions": 5791258.3
+    },
+    "COK": {
+      "count": 17,
+      "total_emissions": 107558.4
+    },
+    "COL": {
+      "count": 80,
+      "total_emissions": 78973253.2
+    },
+    "COM": {
+      "count": 13,
+      "total_emissions": 246154.8
+    },
+    "CPV": {
+      "count": 3,
+      "total_emissions": 148544.0
+    },
+    "CRI": {
+      "count": 6,
+      "total_emissions": 1128117.0
+    },
+    "CUB": {
+      "count": 22,
+      "total_emissions": 6709244.6
+    },
+    "CUW": {
+      "count": 2,
+      "total_emissions": 1071180.0
+    },
+    "CXR": {
+      "count": 4,
+      "total_emissions": 25939.2
+    },
+    "CYM": {
+      "count": 1,
+      "total_emissions": 327340.0
+    },
+    "CYP": {
+      "count": 4,
+      "total_emissions": 2778023.0
+    },
+    "CZE": {
+      "count": 80,
+      "total_emissions": 42653193.6
+    },
+    "DJI": {
+      "count": 3,
+      "total_emissions": 320528.9
+    },
+    "DMA": {
+      "count": 17,
+      "total_emissions": 198949.9
+    },
+    "DNK": {
+      "count": 48,
+      "total_emissions": 7018686.6
+    },
+    "DOM": {
+      "count": 31,
+      "total_emissions": 15804581.8
+    },
+    "DZA": {
+      "count": 80,
+      "total_emissions": 192357339.9
+    },
+    "ECU": {
+      "count": 33,
+      "total_emissions": 32720716.4
+    },
+    "EGY": {
+      "count": 80,
+      "total_emissions": 187053710.3
+    },
+    "ERI": {
+      "count": 5,
+      "total_emissions": 466024.4
+    },
+    "ESP": {
+      "count": 80,
+      "total_emissions": 60641223.8
+    },
+    "EST": {
+      "count": 9,
+      "total_emissions": 2351307.3
+    },
+    "ETH": {
+      "count": 12,
+      "total_emissions": 7721259.4
+    },
+    "FIN": {
+      "count": 76,
+      "total_emissions": 16410546.4
+    },
+    "FJI": {
+      "count": 3,
+      "total_emissions": 307451.1
+    },
+    "FRA": {
+      "count": 80,
+      "total_emissions": 54477692.9
+    },
+    "FRO": {
+      "count": 57,
+      "total_emissions": 1060818.6
+    },
+    "FSM": {
+      "count": 54,
+      "total_emissions": 260863.2
+    },
+    "GAB": {
+      "count": 13,
+      "total_emissions": 10251073.7
+    },
+    "GBR": {
+      "count": 80,
+      "total_emissions": 64785939.2
+    },
+    "GEO": {
+      "count": 18,
+      "total_emissions": 2132719.8
+    },
+    "GHA": {
+      "count": 19,
+      "total_emissions": 7634748.1
+    },
+    "GIB": {
+      "count": 1,
+      "total_emissions": 98196.0
+    },
+    "GIN": {
+      "count": 30,
+      "total_emissions": 6550763.3
+    },
+    "GMB": {
+      "count": 1,
+      "total_emissions": 182220.0
+    },
+    "GNB": {
+      "count": 1,
+      "total_emissions": 27392.0
+    },
+    "GNQ": {
+      "count": 2,
+      "total_emissions": 929143.1
+    },
+    "GRC": {
+      "count": 68,
+      "total_emissions": 28625433.7
+    },
+    "GRD": {
+      "count": 17,
+      "total_emissions": 396263.2
+    },
+    "GRL": {
+      "count": 83,
+      "total_emissions": 918403.4
+    },
+    "GTM": {
+      "count": 50,
+      "total_emissions": 5139272.3
+    },
+    "GUM": {
+      "count": 9,
+      "total_emissions": 133092.9
+    },
+    "GUY": {
+      "count": 5,
+      "total_emissions": 668274.0
+    },
+    "HKG": {
+      "count": 47,
+      "total_emissions": 28713901.1
+    },
+    "HND": {
+      "count": 21,
+      "total_emissions": 3447742.7
+    },
+    "HRV": {
+      "count": 24,
+      "total_emissions": 5681515.2
+    },
+    "HTI": {
+      "count": 2,
+      "total_emissions": 6565.0
+    },
+    "HUN": {
+      "count": 49,
+      "total_emissions": 19385092.3
+    },
+    "IDN": {
+      "count": 80,
+      "total_emissions": 352533424.7
+    },
+    "IMN": {
+      "count": 1,
+      "total_emissions": 403080.0
+    },
+    "IND": {
+      "count": 80,
+      "total_emissions": 1002173786.5
+    },
+    "IRL": {
+      "count": 46,
+      "total_emissions": 12543955.8
+    },
+    "IRN": {
+      "count": 80,
+      "total_emissions": 461679726.4
+    },
+    "IRQ": {
+      "count": 80,
+      "total_emissions": 292738457.6
+    },
+    "ISL": {
+      "count": 7,
+      "total_emissions": 2645880.4
+    },
+    "ISR": {
+      "count": 80,
+      "total_emissions": 41888612.7
+    },
+    "ITA": {
+      "count": 80,
+      "total_emissions": 86625194.5
+    },
+    "JAM": {
+      "count": 17,
+      "total_emissions": 2738433.2
+    },
+    "JOR": {
+      "count": 47,
+      "total_emissions": 11806128.8
+    },
+    "JPN": {
+      "count": 80,
+      "total_emissions": 456846001.8
+    },
+    "KAZ": {
+      "count": 80,
+      "total_emissions": 177461491.9
+    },
+    "KEN": {
+      "count": 15,
+      "total_emissions": 4238969.1
+    },
+    "KGZ": {
+      "count": 14,
+      "total_emissions": 3111248.5
+    },
+    "KHM": {
+      "count": 80,
+      "total_emissions": 13740023.2
+    },
+    "KIR": {
+      "count": 31,
+      "total_emissions": 254658.1
+    },
+    "KNA": {
+      "count": 24,
+      "total_emissions": 309768.4
+    },
+    "KOR": {
+      "count": 80,
+      "total_emissions": 380404517.2
+    },
+    "KWT": {
+      "count": 15,
+      "total_emissions": 137821773.1
+    },
+    "LAO": {
+      "count": 20,
+      "total_emissions": 20275526.3
+    },
+    "LBN": {
+      "count": 9,
+      "total_emissions": 4787481.1
+    },
+    "LBR": {
+      "count": 4,
+      "total_emissions": 127518.1
+    },
+    "LBY": {
+      "count": 39,
+      "total_emissions": 85256726.1
+    },
+    "LCA": {
+      "count": 20,
+      "total_emissions": 559104.5
+    },
+    "LIE": {
+      "count": 11,
+      "total_emissions": 41597.3
+    },
+    "LKA": {
+      "count": 80,
+      "total_emissions": 8224983.0
+    },
+    "LSO": {
+      "count": 2,
+      "total_emissions": 6565.0
+    },
+    "LTU": {
+      "count": 31,
+      "total_emissions": 4461085.5
+    },
+    "LUX": {
+      "count": 5,
+      "total_emissions": 467651.6
+    },
+    "LVA": {
+      "count": 5,
+      "total_emissions": 1165900.9
+    },
+    "MAC": {
+      "count": 3,
+      "total_emissions": 173328.1
+    },
+    "MAF": {
+      "count": 7,
+      "total_emissions": 144941.1
+    },
+    "MAR": {
+      "count": 49,
+      "total_emissions": 36581926.8
+    },
+    "MCO": {
+      "count": 3,
+      "total_emissions": 108150.0
+    },
+    "MDA": {
+      "count": 13,
+      "total_emissions": 3309463.5
+    },
+    "MDG": {
+      "count": 14,
+      "total_emissions": 1056390.1
+    },
+    "MDV": {
+      "count": 37,
+      "total_emissions": 1275235.1
+    },
+    "MEX": {
+      "count": 80,
+      "total_emissions": 184488402.4
+    },
+    "MHL": {
+      "count": 44,
+      "total_emissions": 202198.7
+    },
+    "MKD": {
+      "count": 20,
+      "total_emissions": 3812182.0
+    },
+    "MLI": {
+      "count": 4,
+      "total_emissions": 944280.0
+    },
+    "MLT": {
+      "count": 3,
+      "total_emissions": 781163.8
+    },
+    "MMR": {
+      "count": 70,
+      "total_emissions": 19923987.6
+    },
+    "MNE": {
+      "count": 7,
+      "total_emissions": 1667054.8
+    },
+    "MNG": {
+      "count": 45,
+      "total_emissions": 21403462.7
+    },
+    "MNP": {
+      "count": 3,
+      "total_emissions": 124415.1
+    },
+    "MOZ": {
+      "count": 16,
+      "total_emissions": 7657392.5
+    },
+    "MRT": {
+      "count": 10,
+      "total_emissions": 1778501.0
+    },
+    "MSR": {
+      "count": 8,
+      "total_emissions": 19603.5
+    },
+    "MUS": {
+      "count": 17,
+      "total_emissions": 2254004.6
+    },
+    "MWI": {
+      "count": 5,
+      "total_emissions": 421644.2
+    },
+    "MYS": {
+      "count": 80,
+      "total_emissions": 164230578.0
+    },
+    "NAM": {
+      "count": 6,
+      "total_emissions": 483642.3
+    },
+    "NCL": {
+      "count": 5,
+      "total_emissions": 2480351.0
+    },
+    "NER": {
+      "count": 13,
+      "total_emissions": 1921964.3
+    },
+    "NGA": {
+      "count": 70,
+      "total_emissions": 104049664.4
+    },
+    "NIC": {
+      "count": 21,
+      "total_emissions": 967975.9
+    },
+    "NIU": {
+      "count": 6,
+      "total_emissions": 17781.9
+    },
+    "NLD": {
+      "count": 80,
+      "total_emissions": 63758590.7
+    },
+    "NPL": {
+      "count": 26,
+      "total_emissions": 6383617.9
+    },
+    "NRU": {
+      "count": 17,
+      "total_emissions": 23257.0
+    },
+    "NZL": {
+      "count": 33,
+      "total_emissions": 6279084.2
+    },
+    "OMN": {
+      "count": 47,
+      "total_emissions": 107980036.4
+    },
+    "PAK": {
+      "count": 80,
+      "total_emissions": 172131154.5
+    },
+    "PAN": {
+      "count": 8,
+      "total_emissions": 2827189.1
+    },
+    "PER": {
+      "count": 80,
+      "total_emissions": 35802426.2
+    },
+    "PHL": {
+      "count": 80,
+      "total_emissions": 113523609.5
+    },
+    "PLW": {
+      "count": 19,
+      "total_emissions": 90437.7
+    },
+    "PNG": {
+      "count": 12,
+      "total_emissions": 11481271.7
+    },
+    "POL": {
+      "count": 80,
+      "total_emissions": 152339361.1
+    },
+    "PRI": {
+      "count": 80,
+      "total_emissions": 18263711.9
+    },
+    "PRK": {
+      "count": 38,
+      "total_emissions": 33132899.7
+    },
+    "PRT": {
+      "count": 80,
+      "total_emissions": 20491910.1
+    },
+    "PRY": {
+      "count": 6,
+      "total_emissions": 1157669.2
+    },
+    "PSE": {
+      "count": 4,
+      "total_emissions": 661049.0
+    },
+    "PYF": {
+      "count": 1,
+      "total_emissions": 225730.0
+    },
+    "QAT": {
+      "count": 25,
+      "total_emissions": 52720127.8
+    },
+    "ROU": {
+      "count": 80,
+      "total_emissions": 32354145.0
+    },
+    "RUS": {
+      "count": 80,
+      "total_emissions": 1106900493.3
+    },
+    "RWA": {
+      "count": 4,
+      "total_emissions": 466130.1
+    },
+    "SAU": {
+      "count": 80,
+      "total_emissions": 510599237.6
+    },
+    "SDN": {
+      "count": 21,
+      "total_emissions": 7092788.8
+    },
+    "SEN": {
+      "count": 15,
+      "total_emissions": 6313791.8
+    },
+    "SGP": {
+      "count": 21,
+      "total_emissions": 38773548.0
+    },
+    "SHN": {
+      "count": 19,
+      "total_emissions": 53114.7
+    },
+    "SLB": {
+      "count": 120,
+      "total_emissions": 406751.5
+    },
+    "SLE": {
+      "count": 6,
+      "total_emissions": 316447.9
+    },
+    "SLV": {
+      "count": 33,
+      "total_emissions": 1699244.4
+    },
+    "SMR": {
+      "count": 9,
+      "total_emissions": 31316.9
+    },
+    "SOM": {
+      "count": 1,
+      "total_emissions": 136120.0
+    },
+    "SPM": {
+      "count": 9,
+      "total_emissions": 75797.1
+    },
+    "SRB": {
+      "count": 59,
+      "total_emissions": 37736810.0
+    },
+    "SSD": {
+      "count": 8,
+      "total_emissions": 2743653.7
+    },
+    "STP": {
+      "count": 11,
+      "total_emissions": 102105.6
+    },
+    "SUR": {
+      "count": 5,
+      "total_emissions": 1277118.0
+    },
+    "SVK": {
+      "count": 34,
+      "total_emissions": 14139057.4
+    },
+    "SVN": {
+      "count": 20,
+      "total_emissions": 4714094.3
+    },
+    "SWE": {
+      "count": 72,
+      "total_emissions": 16448690.6
+    },
+    "SWZ": {
+      "count": 1,
+      "total_emissions": 107049.3
+    },
+    "SXM": {
+      "count": 9,
+      "total_emissions": 732223.4
+    },
+    "SYC": {
+      "count": 1,
+      "total_emissions": 286280.0
+    },
+    "SYR": {
+      "count": 25,
+      "total_emissions": 34455067.4
+    },
+    "TCA": {
+      "count": 19,
+      "total_emissions": 507563.6
+    },
+    "TCD": {
+      "count": 7,
+      "total_emissions": 4323475.3
+    },
+    "TGO": {
+      "count": 3,
+      "total_emissions": 1023193.8
+    },
+    "THA": {
+      "count": 80,
+      "total_emissions": 137350234.7
+    },
+    "TJK": {
+      "count": 16,
+      "total_emissions": 3092883.2
+    },
+    "TKM": {
+      "count": 29,
+      "total_emissions": 146921433.9
+    },
+    "TLS": {
+      "count": 2,
+      "total_emissions": 317090.0
+    },
+    "TON": {
+      "count": 29,
+      "total_emissions": 254022.9
+    },
+    "TTO": {
+      "count": 14,
+      "total_emissions": 8865399.8
+    },
+    "TUN": {
+      "count": 71,
+      "total_emissions": 18085941.3
+    },
+    "TUR": {
+      "count": 80,
+      "total_emissions": 187814365.4
+    },
+    "TUV": {
+      "count": 12,
+      "total_emissions": 53223.2
+    },
+    "TWN": {
+      "count": 80,
+      "total_emissions": 193565115.9
+    },
+    "TZA": {
+      "count": 24,
+      "total_emissions": 6464687.7
+    },
+    "UGA": {
+      "count": 9,
+      "total_emissions": 1291602.9
+    },
+    "UKR": {
+      "count": 80,
+      "total_emissions": 76912838.5
+    },
+    "URY": {
+      "count": 8,
+      "total_emissions": 1771813.1
+    },
+    "UZB": {
+      "count": 68,
+      "total_emissions": 99340225.7
+    },
+    "VAT": {
+      "count": 1,
+      "total_emissions": 472.0
+    },
+    "VCT": {
+      "count": 23,
+      "total_emissions": 330106.7
+    },
+    "VEN": {
+      "count": 78,
+      "total_emissions": 148167713.8
+    },
+    "VGB": {
+      "count": 13,
+      "total_emissions": 442587.2
+    },
+    "VIR": {
+      "count": 2,
+      "total_emissions": 52593.8
+    },
+    "VNM": {
+      "count": 80,
+      "total_emissions": 215211269.4
+    },
+    "VUT": {
+      "count": 101,
+      "total_emissions": 370859.5
+    },
+    "WLF": {
+      "count": 12,
+      "total_emissions": 22710.3
+    },
+    "WSM": {
+      "count": 53,
+      "total_emissions": 330313.2
+    },
+    "XKX": {
+      "count": 3,
+      "total_emissions": 7862306.3
+    },
+    "YEM": {
+      "count": 27,
+      "total_emissions": 10935757.4
+    },
+    "ZAF": {
+      "count": 80,
+      "total_emissions": 274950725.3
+    },
+    "ZMB": {
+      "count": 43,
+      "total_emissions": 8434775.7
+    },
+    "ZWE": {
+      "count": 20,
+      "total_emissions": 10298632.0
+    }
+  }
+}

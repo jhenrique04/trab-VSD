@@ -1,0 +1,20 @@
+source,indicator,min_year,max_year,countries_count,missing_values_count,missing_values_percent,notes
+Calculated,co2_per_capita_change_1990_latest,1990,2023,208,714,9.17,Calculated on final country-year table; no imputation or interpolation.
+Calculated,gdp_per_capita_change_1990_latest,1990,2023,185,1496,19.21,Calculated on final country-year table; no imputation or interpolation.
+Calculated,hdi_change_1990_latest,1990,2023,141,2992,38.43,Calculated on final country-year table; no imputation or interpolation.
+Calculated,hdi_to_co2_ratio,1990,2023,192,1871,24.03,Calculated on final country-year table; no imputation or interpolation.
+Our World in Data,co2_per_capita,1990,2023,213,557,7.15,Calculated on final country-year table; no imputation or interpolation.
+Our World in Data,co2_total_mt,1990,2023,215,493,6.33,Calculated on final country-year table; no imputation or interpolation.
+Our World in Data,consumption_co2,1990,2023,120,3722,47.8,Calculated on final country-year table; no imputation or interpolation.
+Our World in Data,consumption_co2_per_capita,1990,2023,120,3722,47.8,Calculated on final country-year table; no imputation or interpolation.
+Our World in Data,cumulative_co2,1990,2023,215,493,6.33,Calculated on final country-year table; no imputation or interpolation.
+Our World in Data,ghg_per_capita,1990,2023,199,1020,13.1,Calculated on final country-year table; no imputation or interpolation.
+Our World in Data,total_ghg,1990,2023,199,1020,13.1,Calculated on final country-year table; no imputation or interpolation.
+UNDP HDR,expected_years_schooling,1990,2023,195,1476,18.96,Calculated on final country-year table; no imputation or interpolation.
+UNDP HDR,gni_per_capita,1990,2023,193,1308,16.8,Calculated on final country-year table; no imputation or interpolation.
+UNDP HDR,hdi,1990,2023,193,1846,23.71,Calculated on final country-year table; no imputation or interpolation.
+UNDP HDR,hdi_rank,1990,2023,193,1224,15.72,Calculated on final country-year table; no imputation or interpolation.
+UNDP HDR,mean_years_schooling,1990,2023,193,1705,21.9,Calculated on final country-year table; no imputation or interpolation.
+UNDP HDR; World Bank fallback,life_expectancy,1990,2023,217,408,5.24,Calculated on final country-year table; no imputation or interpolation.
+World Bank WDI,gdp_per_capita_ppp_constant,1990,2023,199,1189,15.27,Calculated on final country-year table; no imputation or interpolation.
+World Bank WDI; OWID fallback; UNDP fallback,population,1990,2023,227,68,0.87,Calculated on final country-year table; no imputation or interpolation.

@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Viver bem custa o planeta? - Desenvolvimento e CO2</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <script src="https://unpkg.com/deck.gl@9.0.0/dist.min.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+  </head>
+  <body>
+    <canvas id="ambientCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
+
+    <header class="topbar">
+      <a class="topbar-brand" href="#top" aria-label="Ir para o início">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M8 19c4-1 6-7 10-8 3-1 5 1 6 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" />
+          <path d="M8 23c4-1 7-2 10-1 3 1 5 1 7-1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" />
+        </svg>
+        <span class="brand-name"><strong>Desenvolvimento</strong> &amp; Planeta</span>
+      </a>
+      <nav class="topbar-nav" aria-label="Atos da narrativa">
+        <a href="#ato1">Corrida</a>
+        <a href="#ato2">Terras</a>
+        <a href="#ato3">Mapa</a>
+        <a href="#ato4">Fontes</a>
+        <a href="#ato5">Explorar</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button">🌙  Escuro</button>
+    </header>
+
+    <main class="narrative">
+      <svg id="timeline" class="timeline-svg" aria-hidden="true"></svg>
+      <section class="hero" id="top">
+        <p class="eyebrow">visualizacao · dados</p>
+        <h1>Dá para viver bem sem cobrar a conta do planeta?</h1>
+        <p class="lede">
+          Entre 1990 e 2023, países correram atrás de desenvolvimento humano. Alguns
+          aqueceram o planeta para chegar lá; outros encontraram um caminho mais limpo.
+          Role para ver quem está vencendo essa corrida - e quem realmente paga a conta.
+        </p>
+        <a class="hero-cta" href="#ato1">Começar a corrida ↓</a>
+        <p class="hero-scrollhint">role para baixo</p>
+      </section>
+      <section class="act" id="ato1">
+        <div class="scrolly">
+          <div class="scrolly-pin">
+            <div class="act-intro">
+              <h2>A corrida do ponto ideal</h2>
+              <p>
+                Cada bolha é um país no espaço <strong>IDH × CO2 per capita</strong>. O destino é o
+                canto verde: alto desenvolvimento, baixa emissão. Aperte play, arraste a linha do
+                tempo e clique num país para fixá-lo.
+              </p>
+              <p class="src-note">
+                Canto verde = IDH ≥ 0,800 (“muito alto”, classificação do PNUD) e CO2 abaixo de
+                ~2,3 t/hab (orçamento de carbono 1,5–2 °C, IPCC AR6). Detalhes nas fontes.
+              </p>
+            </div>
+            <div class="scrolly-graphic"><div id="raceGraphic"></div></div>
+          </div>
+          <div class="scrolly-steps" id="raceSteps">
+            <div class="step" data-action="reset">
+              <h3>1990: o ponto de partida</h3>
+              <p>O canto verde está quase vazio. Quem tem IDH alto emite muito — os EUA passam de 20 toneladas de CO2 por pessoa. Quem emite pouco ainda tem IDH baixo. Naquele momento, desenvolver parecia exigir carbono.</p>
+            </div>
+            <div class="step" data-year="2000">
+              <h3>Anos 2000: a China acelera</h3>
+              <p>A China salta no IDH (de 0,49 em 1990 para perto de 0,80), mas o CO2 por pessoa quase quadruplica: de ~2 para ~8 toneladas. A bolha sobe e vai para a direita ao mesmo tempo — desenvolvimento e emissão de mãos dadas.</p>
+            </div>
+            <div class="step" data-year="2012">
+              <h3>2012: os caminhos se separam</h3>
+              <p>Aqui a relação se quebra. Uns países ganham IDH sem disparar o CO2 (Europa começa a descer no eixo vertical); outros só sobem emitindo mais. Deixa de ser uma linha reta — desenvolvimento e carbono podem ser desacoplados.</p>
+            </div>
+            <div class="step" data-action="green">
+              <h3>2023: quem chegou ao ponto ideal?</h3>
+              <p>Costa Rica (IDH 0,83 com só 1,7 t por pessoa) e Uruguai (0,86 com 2,3 t) provam que dá para viver bem com pouco carbono. Já os EUA têm IDH 0,94, mas ainda 14 t por pessoa — 6× o limite sustentável. Clique nesses países para acompanhá-los pelo resto da página.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="act" id="ato2">
+        <div class="scrolly">
+          <div class="scrolly-pin">
+            <div class="act-intro">
+              <h2>Quantas Terras?</h2>
+              <p>
+                E se todo mundo vivesse como um país específico? Comparamos o CO2 per capita
+                de cada país com um limite sustentável de ~2,3 t/ano - o orçamento de carbono
+                compatível com 1,5–2 °C (IPCC AR6) repartido por habitante. O resultado é
+                quantos planetas seriam necessários.
+              </p>
+              <p class="src-note">
+                Planetas = CO2 per capita do país ÷ 2,3 t. Cada país usa o registro mais
+                recente disponível (até 2023). Dados: Our World in Data; limite: IPCC AR6.
+              </p>
+            </div>
+            <div class="scrolly-graphic">
+              <div id="footprintGraphic" class="footprint-stage">
+                <div class="earths-row" id="earthsRow">-</div>
+                <label class="footprint-select">
+                  Escolha um país
+                  <select id="footprintSelect"></select>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="scrolly-steps" id="footprintSteps">
+            <div class="step" data-iso="QAT">
+              <h3>O topo da tabela</h3>
+              <p>Se o mundo inteiro vivesse como o <strong>Catar</strong>, precisaríamos de <strong>~17 planetas</strong>. São 40 toneladas de CO2 por pessoa — o estilo de vida mais intensivo em carbono do planeta.</p>
+            </div>
+            <div class="step" data-iso="USA">
+              <h3>O padrão rico</h3>
+              <p>Os <strong>Estados Unidos</strong> pedem <strong>~6 planetas</strong> (14 t por pessoa). O padrão de consumo de alta renda não cabe em uma Terra só.</p>
+            </div>
+            <div class="step" data-iso="BRA">
+              <h3>Perto do limite</h3>
+              <p>O <strong>Brasil</strong> fica em <strong>~1 planeta</strong> (2,3 t por pessoa), bem no limite do que o orçamento de carbono permite.</p>
+            </div>
+            <div class="step" data-iso="IND">
+              <h3>Abaixo da linha</h3>
+              <p>A <strong>Índia</strong> emite menos que o limite (<strong>~0,9 planeta</strong>, 2,1 t por pessoa), mas são 1,4 bilhão de pessoas. Quem já ultrapassou o limite carrega a maior responsabilidade.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="act" id="ato3">
+        <div class="scrolly">
+          <div class="scrolly-pin">
+            <div class="act-intro">
+              <h2>O mapa que mente</h2>
+              <p>
+                O mapa de emissões por <strong>território</strong> faz países ricos parecerem
+                limpos. Troque para emissões por <strong>consumo</strong> e veja o que muda:
+                parte do carbono deles é, na verdade, produzida na China e em outros lugares.
+              </p>
+            </div>
+            <div class="trade-toolbar">
+              <div class="seg" id="tradeSeg">
+                <button data-mode="co2_per_capita" class="is-active" type="button">Por território</button>
+                <button data-mode="consumption_co2_per_capita" type="button">Por consumo</button>
+              </div>
+              <span class="note" id="tradeYearLabel"></span>
+            </div>
+            <div class="scrolly-graphic">
+              <div id="tradeMap" class="trade-chart"></div>
+              <div id="tradeNetBars" class="trade-netbars" hidden>
+                <div id="tradeNetBarsChart"></div>
+              </div>
+            </div>
+          </div>
+          <div class="scrolly-steps" id="tradeSteps">
+            <div class="step" data-mode="co2_per_capita">
+              <h3>A versão oficial (território)</h3>
+              <p>Emissões contadas onde o CO2 sai da chaminé - no país que produz. É assim que os países reportam suas metas na ONU.</p>
+            </div>
+            <div class="step" data-mode="consumption_co2_per_capita">
+              <h3>A conta do consumo</h3>
+              <p>Agora o carbono é atribuído a quem consome o produto final. Países ricos que importam da China e de outros ficam mais vermelhos - parte das emissões deles acontece fora.</p>
+            </div>
+            <div class="step" data-action="netbars">
+              <h3>Importadores × exportadores de carbono</h3>
+              <p>A diferença é enorme: os EUA importam <strong>+510 Mt</strong> e a Alemanha <strong>+175 Mt</strong> de CO2 embutido em produtos; a China <strong>exporta −1.300 Mt</strong>, produzindo para o mundo. O mapa oficial esconde isso.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="act" id="ato4">
+        <div class="act-intro">
+          <h2>De onde vem o CO2</h2>
+          <p>
+            Médias nacionais escondem chaminés concretas. Metade dessas emissões vem da
+            geração de energia e mais de um quinto de petróleo e gás. Selecione países (aqui
+            ou na corrida, lá em cima) e veja as instalações reais que mais emitem - usinas,
+            refinarias, siderúrgicas. Fonte: Climate TRACE.
+          </p>
+        </div>
+        <div class="facilities-shell">
+          <div id="facilitiesMap" class="facilities-map"></div>
+          <div class="facilities-side">
+            <p id="facilitiesStatus" class="facilities-status">
+              Selecione países na corrida (no topo) ou no mapa para ver as instalações.
+            </p>
+            <div class="legend">
+              <h2>Setores</h2>
+              <div id="facilitiesLegend" class="category-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="treemap-block">
+          <div class="treemap-head">
+            <h3 id="treemapTitle" class="treemap-title">Mundo: emissões por setor</h3>
+            <button id="treemapBack" class="treemap-back" type="button" hidden>‹ voltar aos setores</button>
+          </div>
+          <p class="src-note">Clique num setor para abrir suas instalações. Fonte: Climate TRACE.</p>
+          <div id="treemap" class="treemap"></div>
+        </div>
+      </section>
+      <section class="act" id="ato5">
+        <div class="act-intro">
+          <h2>Explore os dados</h2>
+          <p>
+            Agora é com você: dois globos coropléticos, comparação direta entre os países
+            selecionados e os indicadores por ano. Filtre num lugar, tudo se atualiza.
+          </p>
+        </div>
+
+        <div class="explore-dashboard">
+          <section class="explore-card explore-config" aria-label="Configurações da visualização">
+            <div class="explore-card-head">
+              <span class="panel-kicker">Configuração</span>
+              <h2>Visualização</h2>
+            </div>
+            <div class="seg view-seg" id="viewSeg">
+              <button data-view="2d" class="is-active" type="button">Mapa 2D</button>
+              <button data-view="3d" type="button">Globos 3D</button>
+            </div>
+            <div class="controls explore-controls">
+              <label>
+                Ano
+                <select id="yearSelect"></select>
+              </label>
+              <label class="sync-control control-3d">
+                <input id="syncCameras" type="checkbox" checked />
+                <span>Sincronizar rotação e zoom</span>
+              </label>
+              <label class="control-2d">
+                Indicador do mapa
+                <select id="map2dIndicator">
+                  <option value="hdi">IDH</option>
+                  <option value="co2_per_capita" selected>CO2 per capita</option>
+                  <option value="gdp_per_capita_ppp_constant">PIB per capita PPP</option>
+                  <option value="life_expectancy">Expectativa de vida</option>
+                  <option value="mean_years_schooling">Escolaridade média</option>
+                  <option value="population">População</option>
+                  <option value="development_carbon_profile">Perfil desenvolvimento-carbono</option>
+                </select>
+              </label>
+              <label class="control-3d">
+                Indicador do globo esquerdo
+                <select id="leftIndicatorSelect">
+                  <option value="hdi" selected>IDH</option>
+                  <option value="co2_per_capita">CO2 per capita</option>
+                  <option value="gdp_per_capita_ppp_constant">PIB per capita PPP</option>
+                  <option value="life_expectancy">Expectativa de vida</option>
+                  <option value="mean_years_schooling">Escolaridade média</option>
+                  <option value="expected_years_schooling">Escolaridade esperada</option>
+                  <option value="population">População</option>
+                  <option value="development_carbon_profile">Perfil desenvolvimento-carbono</option>
+                </select>
+              </label>
+              <label class="control-3d">
+                Indicador do globo direito
+                <select id="rightIndicatorSelect">
+                  <option value="hdi">IDH</option>
+                  <option value="co2_per_capita" selected>CO2 per capita</option>
+                  <option value="gdp_per_capita_ppp_constant">PIB per capita PPP</option>
+                  <option value="life_expectancy">Expectativa de vida</option>
+                  <option value="mean_years_schooling">Escolaridade média</option>
+                  <option value="expected_years_schooling">Escolaridade esperada</option>
+                  <option value="population">População</option>
+                  <option value="development_carbon_profile">Perfil desenvolvimento-carbono</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <aside class="explore-card info-panel selected-card">
+            <div class="selected-header">
+              <h2>Países selecionados</h2>
+              <button id="clearSelection" type="button">Limpar</button>
+            </div>
+            <div class="ab-legend">
+              <span><span class="country-chip" style="background:#00dcff"></span>País A</span>
+              <span><span class="country-chip" style="background:#ffb400"></span>País B</span>
+            </div>
+            <div id="selectedCountryContent" class="selected-content">
+              Clique em até dois países no mapa ou nos globos para comparar os detalhes aqui.
+            </div>
+            <p class="note">
+              A seleção vale para os gráficos de comparação e para as coordenadas paralelas.
+            </p>
+          </aside>
+
+          <section class="explore-card stage explore-visual" aria-label="Visualização principal">
+            <div class="explore-card-head visual-head">
+              <span class="panel-kicker">Visão principal</span>
+              <h2>Compare os países no ano selecionado</h2>
+            </div>
+            <div class="stage-main">
+              <div id="view3d" class="globe-grid">
+                <article class="globe-panel">
+                  <div class="globe-panel-header">
+                    <span class="panel-kicker">Globo esquerdo</span>
+                    <h2 id="leftIndicatorName">-</h2>
+                  </div>
+                  <div id="leftGlobeContainer" class="globe-container" aria-label="Globo 3D esquerdo"></div>
+                  <div class="globe-panel-footer">
+                    <div class="metric-card">
+                      <span class="metric-label">Países com dados</span>
+                      <strong id="leftCoverageValue">-</strong>
+                    </div>
+                    <div class="legend">
+                      <h2>Legenda</h2>
+                      <div id="leftLegendContent"></div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="globe-panel">
+                  <div class="globe-panel-header">
+                    <span class="panel-kicker">Globo direito</span>
+                    <h2 id="rightIndicatorName">-</h2>
+                  </div>
+                  <div id="rightGlobeContainer" class="globe-container" aria-label="Globo 3D direito"></div>
+                  <div class="globe-panel-footer">
+                    <div class="metric-card">
+                      <span class="metric-label">Países com dados</span>
+                      <strong id="rightCoverageValue">-</strong>
+                    </div>
+                    <div class="legend">
+                      <h2>Legenda</h2>
+                      <div id="rightLegendContent"></div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <div id="view2d" class="map2d-view" hidden>
+                <div id="map2d" class="map2d"></div>
+                <div class="legend"><h2>Legenda</h2><div id="map2dLegend"></div></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="comparison-section" aria-label="Comparação entre países">
+          <header class="section-header">
+            <h2>Os dois países lado a lado</h2>
+            <p class="section-sub">
+              Quem desacoplou desenvolvimento de emissões, quem carrega a maior
+              responsabilidade histórica e quem "terceiriza" emissões pelo consumo.
+            </p>
+          </header>
+          <p id="comparisonEmpty" class="comparison-empty">
+            Selecione até dois países (em qualquer ato) para preencher os gráficos.
+          </p>
+          <div class="comparison-grid">
+            <article class="cmp-card" hidden>
+              <h3>Trajetória desenvolvimento × emissão</h3>
+              <div id="cmpTrajectory" class="cmp-chart"></div>
+            </article>
+            <article class="cmp-card" hidden>
+              <h3>Responsabilidade histórica</h3>
+              <div id="cmpHistorical" class="cmp-chart"></div>
+            </article>
+            <article class="cmp-card" hidden>
+              <h3>Emissões: território × consumo</h3>
+              <div id="cmpConsumption" class="cmp-chart"></div>
+              <p id="cmpConsumptionNote" class="cmp-note" hidden></p>
+            </article>
+            <article class="cmp-card" hidden>
+              <h3>Comparação multi-indicador</h3>
+              <div id="cmpDumbbell" class="cmp-chart"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="parallel-section" aria-label="Coordenadas paralelas">
+          <header class="section-header">
+            <h2>Coordenadas paralelas: desenvolvimento × emissão</h2>
+            <p class="section-sub">
+              Cada linha é um país, ligando IDH, expectativa de vida, escolaridade, PIB e CO2
+              per capita. Pincele um eixo (arraste verticalmente) para filtrar os países nos
+              demais eixos. Clique numa linha para selecionar o país.
+            </p>
+          </header>
+          <div class="parallel-shell">
+            <div id="parallel" class="parallel-chart"></div>
+            <div class="legend">
+              <h2>Perfil</h2>
+              <div id="parallelLegend" class="category-list"></div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div>
+            <h2>Fontes &amp; metodologia</h2>
+            <p class="footer-note">
+              Dados país-ano (1990–2023) unidos por código ISO3. Nenhuma média
+              automática ou interpolação foi criada; valores ausentes ficam vazios.
+            </p>
+          </div>
+          <div>
+            <h3>Dados</h3>
+            <ul class="footer-links">
+              <li><a href="https://hdr.undp.org/data-center" target="_blank" rel="noopener">PNUD - Relatório de Desenvolvimento Humano (IDH, escolaridade, renda)</a></li>
+              <li><a href="https://data.worldbank.org" target="_blank" rel="noopener">World Bank - World Development Indicators (PIB, população, região)</a></li>
+              <li><a href="https://github.com/owid/co2-data" target="_blank" rel="noopener">Our World in Data - CO2 e gases de efeito estufa</a></li>
+              <li><a href="https://climatetrace.org/data" target="_blank" rel="noopener">Climate TRACE - emissões por instalação</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Parâmetros e referências</h3>
+            <ul class="footer-links">
+              <li><strong>IDH ≥ 0,800 = "Desenvolvimento Humano Muito Alto"</strong>, classificação oficial do <a href="https://hdr.undp.org/" target="_blank" rel="noopener">PNUD</a>.</li>
+              <li><strong>~2,3 t CO2/hab/ano</strong>: nível de referência derivado do orçamento de carbono compatível com 1,5–2 °C (<a href="https://www.ipcc.ch/report/ar6/wg1/" target="_blank" rel="noopener">IPCC AR6</a> / Global Carbon Project), repartido por habitante. Parâmetro de comparação, não medição.</li>
+              <li>As relações são <strong>exploratórias</strong> e não implicam causalidade.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="footer-credits">
+          Visualização de Dados · Universidade Federal do Ceará · 2026.1 - José
+          Henrique Viana Santos e Maria Carolina Máximo Viana.
+        </p>
+      </footer>
+    </main>
+
+    <div id="tooltip" class="tooltip" hidden></div>
+    <div id="loading" class="loading">Carregando…</div>
+
+    <script type="module" src="./theme.js"></script>
+    <script type="module" src="./state.js"></script>
+    <script type="module" src="./race.js"></script>
+    <script type="module" src="./footprint.js"></script>
+    <script type="module" src="./trade-map.js"></script>
+    <script type="module" src="./globe.js?v=explore-layout"></script>
+    <script type="module" src="./comparison.js"></script>
+    <script type="module" src="./facilities-map.js"></script>
+    <script type="module" src="./map2d.js"></script>
+    <script type="module" src="./viewmode.js?v=explore-layout"></script>
+    <script type="module" src="./parallel.js"></script>
+    <script type="module" src="./treemap.js"></script>
+    <script type="module" src="./ambient.js"></script>
+    <script type="module" src="./timeline.js"></script>
+    <script type="module" src="./narrative.js"></script>
+  </body>
+</html>
