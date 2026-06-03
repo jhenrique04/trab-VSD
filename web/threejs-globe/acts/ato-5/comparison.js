@@ -1,6 +1,7 @@
-import { COUNTRY_COLORS, getState, subscribe } from "./state.js";
-import { cssVar } from "./theme.js";
-import { playFade } from "./fx.js";
+// responsavel pelo ato 5: graficos comparativos em vega-lite
+import { COUNTRY_COLORS, getState, subscribe } from "../../core/state.js";
+import { cssVar } from "../../core/theme.js";
+import { playFade } from "../../core/fx.js";
 
 const containers = {
   trajectory: document.querySelector("#cmpTrajectory"),

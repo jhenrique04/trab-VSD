@@ -1,3 +1,4 @@
+// responsavel pelo fundo animado com particulas e globo em canvas
 import { currentTheme } from "./theme.js";
 
 const canvas = document.querySelector("#ambientCanvas");

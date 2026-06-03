@@ -1,4 +1,5 @@
-import { playFade } from "./fx.js";
+// responsavel pelo ato 2: traduz co2 per capita em quantas terras
+import { playFade } from "../../core/fx.js";
 
 const SUSTAINABLE = 2.3;
 const MAX_GLOBES = 12;

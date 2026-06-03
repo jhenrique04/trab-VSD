@@ -1,3 +1,4 @@
+// responsavel por reaplicar fade quando um painel muda de conteudo
 export function playFade(el) {
   if (!el) {
     return;

@@ -1,5 +1,6 @@
-import { getState, subscribe } from "./state.js";
-import { cssVar } from "./theme.js";
+// responsavel pelo ato 4: treemap de setores e instalacoes
+import { getState, subscribe } from "../../core/state.js";
+import { cssVar } from "../../core/theme.js";
 
 const d3 = window.d3;
 

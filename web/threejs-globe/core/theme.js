@@ -1,3 +1,4 @@
+// responsavel pelo tema claro e escuro salvo no navegador
 const KEY = "devplanet-theme";
 const root = document.documentElement;
 

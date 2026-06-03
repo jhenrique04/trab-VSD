@@ -73,24 +73,69 @@ A aplicacao e modular. O arquivo \texttt{index.html} contem a estrutura da pagin
 \midrule
 \texttt{index.html} & Estrutura da pagina, topbar, hero, cinco atos, controles, paineis e importacao dos scripts. \\
 \texttt{styles.css} & Tema, layout, responsividade, cards, mapas, globos, paineis, scrollytelling e estados visuais. \\
-\texttt{state.js} & Estado compartilhado: paises selecionados, ano ativo e sistema de assinaturas. \\
-\texttt{theme.js} & Alternancia entre tema claro e escuro, persistencia e aviso aos outros modulos. \\
-\texttt{narrative.js} & Integracao com Scrollama, passos dos atos e navegacao ativa. \\
-\texttt{timeline.js} & Linha visual da narrativa acompanhando os atos iniciais. \\
-\texttt{ambient.js} & Fundo animado em canvas com particulas e globo translucido. \\
-\texttt{race.js} & Ato 1: corrida IDH versus CO2 com bolhas animadas. \\
-\texttt{footprint.js} & Ato 2: calculo e exibicao de ``quantas Terras''. \\
-\texttt{trade-map.js} & Ato 3: mapa territorio versus consumo e barras de importadores/exportadores. \\
-\texttt{facilities-map.js} & Ato 4: mapa deck.gl com instalacoes emissoras reais. \\
-\texttt{treemap.js} & Ato 4: treemap navegavel por setor e instalacao. \\
-\texttt{globe.js} & Ato 5: globos 3D, selecao de paises, tooltip, legenda e cameras sincronizadas. \\
-\texttt{map2d.js} & Ato 5: mapa 2D leve com seletor de indicador. \\
-\texttt{viewmode.js} & Alternancia entre Mapa 2D e Globos 3D no Ato 5. \\
-\texttt{comparison.js} & Ato 5: painel Vega-Lite com quatro graficos coordenados. \\
-\texttt{parallel.js} & Ato 5: coordenadas paralelas com filtro por brush. \\
-\texttt{fx.js} & Utilitario simples para aplicar transicao de fade em elementos atualizados. \\
+\texttt{core/state.js} & Estado compartilhado: paises selecionados, ano ativo e sistema de assinaturas. \\
+\texttt{core/theme.js} & Alternancia entre tema claro e escuro, persistencia e aviso aos outros modulos. \\
+\texttt{core/narrative.js} & Integracao com Scrollama, passos dos atos e navegacao ativa. \\
+\texttt{core/timeline.js} & Linha visual da narrativa acompanhando os atos iniciais. \\
+\texttt{core/ambient.js} & Fundo animado em canvas com particulas e globo translucido. \\
+\texttt{acts/ato-1/race.js} & Ato 1: corrida IDH versus CO2 com bolhas animadas. \\
+\texttt{acts/ato-2/footprint.js} & Ato 2: calculo e exibicao de ``quantas Terras''. \\
+\texttt{acts/ato-3/trade-map.js} & Ato 3: mapa territorio versus consumo e barras de importadores/exportadores. \\
+\texttt{acts/ato-4/facilities-map.js} & Ato 4: mapa deck.gl com instalacoes emissoras reais. \\
+\texttt{acts/ato-4/treemap.js} & Ato 4: treemap navegavel por setor e instalacao. \\
+\texttt{acts/ato-5/globe.js} & Ato 5: globos 3D, selecao de paises, tooltip, legenda e cameras sincronizadas. \\
+\texttt{acts/ato-5/map2d.js} & Ato 5: mapa 2D leve com seletor de indicador. \\
+\texttt{acts/ato-5/viewmode.js} & Alternancia entre Mapa 2D e Globos 3D no Ato 5. \\
+\texttt{acts/ato-5/comparison.js} & Ato 5: painel Vega-Lite com quatro graficos coordenados. \\
+\texttt{acts/ato-5/parallel.js} & Ato 5: coordenadas paralelas com filtro por brush. \\
+\texttt{core/fx.js} & Utilitario simples para aplicar transicao de fade em elementos atualizados. \\
 \bottomrule
 \end{longtable}
+
+\subsection{Mapa de arquivos por ato e visualizacao}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{4.5cm}>{\raggedright\arraybackslash}p{3.1cm}}
+\toprule
+\textbf{Parte} & \textbf{Visualizacao ou funcao} & \textbf{Arquivos principais} & \textbf{Dados usados} \\
+\midrule
+Base & Estrutura da pagina, topbar, hero, atos e rodape. & \texttt{index.html} & Elementos HTML da pagina. \\
+Base & Tema, layout, cards, responsividade e estados visuais. & \texttt{styles.css} & Variaveis CSS e classes. \\
+Base & Estado compartilhado de ano e paises selecionados. & \texttt{core/state.js} & Cliques e selecoes das visualizacoes. \\
+Base & Tema claro/escuro. & \texttt{core/theme.js} & \texttt{localStorage} e variaveis CSS. \\
+Base & Scroll narrativo e links ativos. & \texttt{core/narrative.js} & Passos dos atos no HTML. \\
+Base & Fundo animado. & \texttt{core/ambient.js} & Scroll e tema atual. \\
+Base & Linha visual da narrativa. & \texttt{core/timeline.js} & Posicao dos atos na pagina. \\
+Ato 1 & Corrida IDH versus CO2. & \texttt{acts/ato-1/race.js} & \texttt{dev\_planet\_narrative.json}. \\
+Ato 2 & Quantas Terras. & \texttt{acts/ato-2/footprint.js} & \texttt{dev\_planet\_narrative.json}. \\
+Ato 3 & Mapa territorio versus consumo e barras liquidas. & \texttt{acts/ato-3/trade-map.js} & \texttt{dev\_planet\_narrative.json} e \texttt{world.geojson}. \\
+Ato 4 & Mapa de instalacoes emissoras. & \texttt{acts/ato-4/facilities-map.js} & Arquivos \texttt{facilities/*.json}. \\
+Ato 4 & Treemap por setor e instalacao. & \texttt{acts/ato-4/treemap.js} & Arquivos \texttt{facilities/*.json}. \\
+Ato 5 & Alternancia entre Mapa 2D e Globos 3D. & \texttt{acts/ato-5/viewmode.js} & Modo salvo no navegador. \\
+Ato 5 & Mapa 2D coropletico. & \texttt{acts/ato-5/map2d.js} & \texttt{dev\_planet\_globe.json} e \texttt{world.geojson}. \\
+Ato 5 & Globos 3D duais. & \texttt{acts/ato-5/globe.js} & \texttt{dev\_planet\_globe.json} e \texttt{world.geojson}. \\
+Ato 5 & Painel de comparacao. & \texttt{acts/ato-5/comparison.js} & \texttt{dev\_planet\_globe.json}. \\
+Ato 5 & Coordenadas paralelas. & \texttt{acts/ato-5/parallel.js} & \texttt{dev\_planet\_globe.json}. \\
+Utilitario & Fade em conteudos atualizados. & \texttt{core/fx.js} & Elementos da interface. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Organizacao atual em pastas}
+
+Os modulos JavaScript ficam separados por responsabilidade:
+
+\begin{verbatim}
+web/threejs-globe/
+  core/        state, theme, fx, narrative, timeline, ambient
+  acts/
+    ato-1/     race
+    ato-2/     footprint
+    ato-3/     trade-map
+    ato-4/     facilities-map, treemap
+    ato-5/     viewmode, map2d, globe, comparison, parallel
+  data/        jsons usados pela web
+  styles.css
+  index.html
+\end{verbatim}
 
 \section{Dados utilizados}
 
@@ -141,7 +186,7 @@ Ato 5: coordenadas paralelas & UNDP para IDH, expectativa de vida e escolaridade
 
 \section{Estado compartilhado e coordenacao}
 
-O arquivo \texttt{state.js} implementa o mecanismo de coordenacao entre visualizacoes. Ele guarda:
+O arquivo \texttt{core/state.js} implementa o mecanismo de coordenacao entre visualizacoes. Ele guarda:
 
 \begin{itemize}
   \item o ano selecionado;
@@ -154,7 +199,7 @@ Quando o usuario clica em um pais no globo, no mapa 2D, na corrida de bolhas ou 
 
 \section{Scrollytelling}
 
-A narrativa usa Scrollama para ativar passos conforme a rolagem. Cada ato com scrollytelling tem uma area fixa com grafico e uma coluna de texto com passos. Quando um passo entra na area ativa da tela, o modulo \texttt{narrative.js} chama a acao correspondente:
+A narrativa usa Scrollama para ativar passos conforme a rolagem. Cada ato com scrollytelling tem uma area fixa com grafico e uma coluna de texto com passos. Quando um passo entra na area ativa da tela, o modulo \texttt{core/narrative.js} chama a acao correspondente:
 
 \begin{itemize}
   \item no Ato 1, muda o ano da corrida ou destaca o ponto ideal;
@@ -184,9 +229,9 @@ A visualizacao foi construida com D3.js. O grafico e uma dispersao animada no es
 
 \subsection{Como foi feito}
 
-O arquivo \texttt{race.js} carrega \texttt{dev\_planet\_narrative.json}, filtra os dados por ano e desenha as bolhas com escalas D3. A cada mudanca de ano, as bolhas recebem novas posicoes, tamanhos e rotulos. O quadrante verde marca a combinacao de IDH alto com baixa emissao.
+O arquivo \texttt{acts/ato-1/race.js} carrega \texttt{dev\_planet\_narrative.json}, filtra os dados por ano e desenha as bolhas com escalas D3. A cada mudanca de ano, as bolhas recebem novas posicoes, tamanhos e rotulos. O quadrante verde marca a combinacao de IDH alto com baixa emissao.
 
-O usuario pode clicar em paises para fixa-los. A selecao e enviada para \texttt{state.js}, permitindo que os mesmos paises aparecam nos outros atos. O grafico tambem usa transicoes suaves para o movimento temporal das bolhas.
+O usuario pode clicar em paises para fixa-los. A selecao e enviada para \texttt{core/state.js}, permitindo que os mesmos paises aparecam nos outros atos. O grafico tambem usa transicoes suaves para o movimento temporal das bolhas.
 
 A construcao segue quatro passos principais: primeiro os registros sao indexados por ano; depois sao criadas escalas para IDH, CO2 per capita e populacao; em seguida o D3 faz o \textit{data join} das bolhas; por fim os passos do scrollytelling chamam metodos do controlador da corrida para mudar ano, reiniciar ou focar o quadrante verde. A escala logaritmica no eixo de CO2 foi escolhida porque as emissoes per capita variam muito entre paises e uma escala linear deixaria paises de baixa emissao comprimidos.
 
@@ -202,7 +247,7 @@ O segundo ato traduz CO2 per capita para uma medida intuitiva: quantos planetas 
 
 \subsection{Tecnologia}
 
-A visualizacao usa HTML, CSS e JavaScript puro com dados carregados por \texttt{fetch}. O modulo responsavel e \texttt{footprint.js}.
+A visualizacao usa HTML, CSS e JavaScript puro com dados carregados por \texttt{fetch}. O modulo responsavel e \texttt{acts/ato-2/footprint.js}.
 
 \subsection{Como foi feito}
 
@@ -237,7 +282,7 @@ O mapa foi feito com D3.js, usando projeção Natural Earth e GeoJSON mundial. A
 
 \subsection{Como foi feito}
 
-O arquivo \texttt{trade-map.js} carrega o GeoJSON e os dados narrativos. O pais recebe cor pela escala sequencial \texttt{d3.interpolateYlOrRd}. Quando o usuario troca o modo, o mapa e redesenhado com o indicador correspondente.
+O arquivo \texttt{acts/ato-3/trade-map.js} carrega o GeoJSON e os dados narrativos. O pais recebe cor pela escala sequencial \texttt{d3.interpolateYlOrRd}. Quando o usuario troca o modo, o mapa e redesenhado com o indicador correspondente.
 
 No terceiro passo, o mapa e ocultado e entra o grafico de barras. O valor usado e:
 
@@ -270,13 +315,13 @@ O mapa usa deck.gl com uma camada de pontos sobre tiles da CARTO. Cada ponto rep
   \item opacidade: destaca paises selecionados e reduz o restante.
 \end{itemize}
 
-O arquivo \texttt{facilities-map.js} tambem altera o enquadramento do mapa quando ha paises selecionados. Assim, a visualizacao aproxima as instalacoes dos paises escolhidos.
+O arquivo \texttt{acts/ato-4/facilities-map.js} tambem altera o enquadramento do mapa quando ha paises selecionados. Assim, a visualizacao aproxima as instalacoes dos paises escolhidos.
 
 Em alto nivel, o mapa cria uma instancia deck.gl, adiciona uma camada de tiles para o fundo e uma camada de pontos para as instalacoes. O raio de cada ponto usa a raiz quadrada da emissao para evitar que instalacoes muito grandes dominem completamente a tela. A legenda e gerada a partir dos setores presentes nos dados exibidos. Quando nenhum pais esta selecionado, o mapa mostra o conjunto global; quando ha selecao, os pontos dos paises escolhidos ficam mais fortes e os demais perdem opacidade.
 
 \subsection{Fonte da visualizacao}
 
-Os pontos, setores, tipos, coordenadas e emissoes vem do Climate TRACE. O mapa base vem dos tiles da CARTO. A selecao de paises vem de \texttt{state.js}, por isso o mapa responde a cliques feitos em outros atos.
+Os pontos, setores, tipos, coordenadas e emissoes vem do Climate TRACE. O mapa base vem dos tiles da CARTO. A selecao de paises vem de \texttt{core/state.js}, por isso o mapa responde a cliques feitos em outros atos.
 
 \subsection{Treemap}
 
@@ -308,7 +353,7 @@ O modo Mapa 2D mostra apenas o indicador do mapa. O modo Globos 3D mostra os ind
 
 \subsection{Mapa 2D}
 
-O mapa 2D foi criado em \texttt{map2d.js} com D3.js. Ele usa o mesmo GeoJSON mundial e a mesma base pais-ano dos globos. A cor depende do indicador selecionado. Indicadores numericos usam escala linear; o indicador categorico de perfil desenvolvimento-carbono usa cores por categoria.
+O mapa 2D foi criado em \texttt{acts/ato-5/map2d.js} com D3.js. Ele usa o mesmo GeoJSON mundial e a mesma base pais-ano dos globos. A cor depende do indicador selecionado. Indicadores numericos usam escala linear; o indicador categorico de perfil desenvolvimento-carbono usa cores por categoria.
 
 O mapa foi incluido como alternativa leve aos globos 3D. Ele e mais simples de carregar e facilita a comparacao rapida em maquinas com menor capacidade grafica.
 
@@ -320,7 +365,7 @@ O mapa 2D usa a base \texttt{dev\_planet\_globe.json}, que integra UNDP, World B
 
 \subsection{Globos 3D}
 
-Os globos foram implementados em \texttt{globe.js} com Three.js, OrbitControls e three-globe. Existem dois renderizadores lado a lado:
+Os globos foram implementados em \texttt{acts/ato-5/globe.js} com Three.js, OrbitControls e three-globe. Existem dois renderizadores lado a lado:
 
 \begin{itemize}
   \item globo esquerdo: indicador independente;
@@ -339,7 +384,7 @@ Os globos usam \texttt{dev\_planet\_globe.json} para indicadores pais-ano e \tex
 
 \subsection{Painel de comparacao}
 
-O arquivo \texttt{comparison.js} usa Vega-Lite para gerar quatro graficos:
+O arquivo \texttt{acts/ato-5/comparison.js} usa Vega-Lite para gerar quatro graficos:
 
 \begin{enumerate}
   \item \textbf{Trajetoria desenvolvimento versus emissao}: dispersao conectada de IDH e CO2 per capita entre 1990 e o ano selecionado.
@@ -358,7 +403,7 @@ O painel usa a base \texttt{dev\_planet\_globe.json}. A trajetoria usa IDH do UN
 
 \subsection{Coordenadas paralelas}
 
-As coordenadas paralelas foram feitas em \texttt{parallel.js} com D3.js. Cada linha representa um pais. Os eixos representam indicadores como IDH, expectativa de vida, escolaridade, PIB e CO2 per capita.
+As coordenadas paralelas foram feitas em \texttt{acts/ato-5/parallel.js} com D3.js. Cada linha representa um pais. Os eixos representam indicadores como IDH, expectativa de vida, escolaridade, PIB e CO2 per capita.
 
 O usuario pode pincelar um eixo verticalmente. O brush filtra as linhas nos demais eixos. Clicar em uma linha seleciona o pais no estado compartilhado, atualizando os outros graficos.
 
@@ -372,11 +417,11 @@ As coordenadas paralelas usam IDH, expectativa de vida e escolaridade do UNDP; P
 
 \subsection{Tema claro e escuro}
 
-O botao da topbar alterna entre tema claro e escuro. O arquivo \texttt{theme.js} aplica o tema no atributo \texttt{data-theme} do HTML e salva a escolha no \texttt{localStorage}. Os outros modulos leem variaveis CSS para adaptar cores de mapas, textos, linhas e fundos.
+O botao da topbar alterna entre tema claro e escuro. O arquivo \texttt{core/theme.js} aplica o tema no atributo \texttt{data-theme} do HTML e salva a escolha no \texttt{localStorage}. Os outros modulos leem variaveis CSS para adaptar cores de mapas, textos, linhas e fundos.
 
 \subsection{Topbar e navegacao}
 
-A topbar fica presa ao topo da tela com \texttt{position: sticky}. Ela contem a marca do projeto, links para os atos e o botao de tema. O modulo \texttt{narrative.js} usa \texttt{IntersectionObserver} para destacar o link do ato visivel.
+A topbar fica presa ao topo da tela com \texttt{position: sticky}. Ela contem a marca do projeto, links para os atos e o botao de tema. O modulo \texttt{core/narrative.js} usa \texttt{IntersectionObserver} para destacar o link do ato visivel.
 
 \subsection{Fundo animado}
 
@@ -384,7 +429,7 @@ O fundo usa um canvas fixo atras do conteudo. O arquivo \texttt{ambient.js} dese
 
 \subsection{Transicoes}
 
-O arquivo \texttt{fx.js} reaplica uma classe CSS de fade quando um conteudo muda. Isso evita cortes bruscos em paineis, mapas e textos atualizados.
+O arquivo \texttt{core/fx.js} reaplica uma classe CSS de fade quando um conteudo muda. Isso evita cortes bruscos em paineis, mapas e textos atualizados.
 
 \subsection{Responsividade}
 

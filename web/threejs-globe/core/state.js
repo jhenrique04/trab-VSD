@@ -1,4 +1,4 @@
-
+// responsavel pelo estado compartilhado de ano e paises selecionados
 export const MAX_SELECTION = 2;
 
 export const COUNTRY_COLORS = ["#00dcff", "#ffb400"];
@@ -8,7 +8,6 @@ const state = {
   year: null,
 };
 
-// estado compartilhado das viz
 const listeners = new Set();
 
 export function getState() {

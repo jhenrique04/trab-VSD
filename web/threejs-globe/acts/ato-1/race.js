@@ -1,5 +1,6 @@
-import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "./state.js";
-import { cssVar } from "./theme.js";
+// responsavel pelo ato 1: corrida idh x co2 per capita
+import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js";
+import { cssVar } from "../../core/theme.js";
 
 const d3 = window.d3;
 
@@ -165,6 +166,7 @@ function render() {
   const data = (byYear.get(currentYear) || []).slice().sort((a, b) => b.population - a.population);
   const selected = getState().selectedCountries;
 
+  // quando esta tocando a transicao fica mais curta para parecer timeline
   const dur = playing ? 240 : 420;
 
   const bubbles = bubbleG
@@ -218,6 +220,7 @@ function render() {
 }
 
 function drawTrails(selected) {
+  // desenha o rastro historico dos paises selecionados ate o ano atual
   const line = d3
     .line()
     .x((d) => xScale(d.hdi))
@@ -274,6 +277,7 @@ function hideTip() {
 }
 
 function wireControls() {
+  // a timeline comeca no slider e no botao play do proprio ato 1
   const slider = document.querySelector("#raceSlider");
   slider.max = String(years.length - 1);
   slider.value = String(years.indexOf(currentYear));
@@ -286,6 +290,7 @@ function wireControls() {
 }
 
 function tick() {
+  // cada tick avanca para o proximo ano da lista ordenada
   const idx = years.indexOf(currentYear);
   if (idx >= years.length - 1) {
     pause();
@@ -304,6 +309,7 @@ function play() {
   }
   playing = true;
   document.querySelector("#racePlay").textContent = "❚❚";
+  // o intervalo eh a animacao temporal da corrida
   timer = setInterval(tick, 650);
 }
 

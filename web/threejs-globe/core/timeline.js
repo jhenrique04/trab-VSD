@@ -1,3 +1,4 @@
+// responsavel pela linha lateral que acompanha os atos narrativos
 import { cssVar } from "./theme.js";
 
 const SVGNS = "http://www.w3.org/2000/svg";
@@ -28,6 +29,7 @@ if (narrative && svg) {
     const nrect = narrative.getBoundingClientRect();
     narrativeTopDoc = nrect.top + window.scrollY;
 
+    // calcula onde cada ato e seus passos ficam na pagina
     const geo = [];
     for (const act of ACTS) {
       const el = document.getElementById(act.id);
@@ -63,6 +65,7 @@ if (narrative && svg) {
     const track = `color-mix(in srgb, ${accent} 26%, transparent)`;
     const panel = cssVar("--panel-solid") || "#0b1422";
 
+    // monta uma curva svg ligando os passos visiveis
     let d = `M ${geo[0].x} ${geo[0].ys[0]}`;
     geo.forEach((a, i) => {
       d += ` L ${a.x} ${a.ys[a.ys.length - 1]}`;
@@ -70,7 +73,7 @@ if (narrative && svg) {
       if (next) {
         const y1 = a.ys[a.ys.length - 1];
         const y2 = next.ys[0];
-        const cross = Math.min(350, (y2 - y1) * 0.5);
+        const cross = Math.min(500, (y2 - y1) * 0.5);
         const yc = y1 + cross;
         d += ` C ${a.x} ${y1 + cross * 0.42} ${next.x} ${yc - cross * 0.42} ${next.x} ${yc}`;
         d += ` L ${next.x} ${y2}`;

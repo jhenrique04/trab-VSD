@@ -1,5 +1,6 @@
-import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "./state.js";
-import { cssVar } from "./theme.js";
+// responsavel pelo ato 5: coordenadas paralelas com brush
+import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js";
+import { cssVar } from "../../core/theme.js";
 
 const d3 = window.d3;
 

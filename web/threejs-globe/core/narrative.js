@@ -1,6 +1,7 @@
-import { raceController } from "./race.js";
-import { footprintController } from "./footprint.js";
-import { tradeController } from "./trade-map.js";
+// responsavel pelo scrollytelling e pelos passos que controlam os atos
+import { raceController } from "../acts/ato-1/race.js";
+import { footprintController } from "../acts/ato-2/footprint.js";
+import { tradeController } from "../acts/ato-3/trade-map.js";
 
 const scrollers = [];
 
@@ -29,6 +30,7 @@ makeScroller("#raceSteps", (el) => {
   if (!raceController.isReady()) {
     return;
   }
+  // cada step do ato 1 chama uma acao da corrida
   const { action, year } = el.dataset;
   if (action === "reset") {
     raceController.reset();
@@ -59,7 +61,7 @@ makeScroller("#tradeSteps", (el) => {
 
 function alignSteps() {
   let changed = false;
-  // alinha os passo com o grafico
+  // alinha os passos com o grafico
   document.querySelectorAll(".scrolly").forEach((scrolly) => {
     const graphic = scrolly.querySelector(".scrolly-graphic");
     const steps = scrolly.querySelector(".scrolly-steps");

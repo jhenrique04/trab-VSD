@@ -1,6 +1,7 @@
-import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "./state.js";
-import { cssVar } from "./theme.js";
-import { playFade } from "./fx.js";
+// responsavel pelo ato 5: mapa 2d coropletico dos indicadores
+import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js";
+import { cssVar } from "../../core/theme.js";
+import { playFade } from "../../core/fx.js";
 
 const d3 = window.d3;
 

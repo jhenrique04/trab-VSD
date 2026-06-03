@@ -43,7 +43,48 @@ A narrativa web tem cinco atos:
 4. **De onde vem o CO2**: mostra instalacoes emissoras reais do Climate TRACE, com deck.gl e treemap D3.
 5. **Explore os dados**: mapa 2D, globos 3D, painel Vega-Lite e coordenadas paralelas.
 
-As visualizacoes sao coordenadas por `web/threejs-globe/state.js`. O usuario pode selecionar ate dois paises; essa selecao atualiza os demais paineis.
+As visualizacoes sao coordenadas por `web/threejs-globe/core/state.js`. O usuario pode selecionar ate dois paises; essa selecao atualiza os demais paineis.
+
+### Mapa de arquivos por ato
+
+| Parte | Visualizacao / funcao | Arquivos principais | Dados usados |
+| --- | --- | --- | --- |
+| Base da pagina | Estrutura HTML, topbar, hero, secoes e rodape | `web/threejs-globe/index.html` | Carrega os modulos e elementos da pagina |
+| Base visual | Tema, layout, cards, responsividade e estados visuais | `web/threejs-globe/styles.css` | Variaveis CSS e classes da interface |
+| Coordenacao | Estado compartilhado de ano e paises selecionados | `web/threejs-globe/core/state.js` | Selecoes feitas em qualquer visualizacao |
+| Tema | Alternancia claro/escuro | `web/threejs-globe/core/theme.js` | `localStorage` e variaveis CSS |
+| Narrativa | Ativacao por scroll e links ativos da topbar | `web/threejs-globe/core/narrative.js` | Passos `.step` dos atos |
+| Fundo | Particulas e globo translucido animado | `web/threejs-globe/core/ambient.js` | Scroll da pagina e tema atual |
+| Timeline | Linha visual da narrativa | `web/threejs-globe/core/timeline.js` | Posicao dos atos na pagina |
+| Ato 1 | Corrida IDH x CO2 com bolhas animadas | `web/threejs-globe/acts/ato-1/race.js` | `data/dev_planet_narrative.json` |
+| Ato 2 | Quantas Terras | `web/threejs-globe/acts/ato-2/footprint.js` | `data/dev_planet_narrative.json` |
+| Ato 3 | Mapa territorio x consumo e barras liquidas | `web/threejs-globe/acts/ato-3/trade-map.js` | `data/dev_planet_narrative.json`, `data/world.geojson` |
+| Ato 4 | Mapa de instalacoes emissoras | `web/threejs-globe/acts/ato-4/facilities-map.js` | `data/facilities/facilities_global.json`, `data/facilities/*.json` |
+| Ato 4 | Treemap por setor e instalacao | `web/threejs-globe/acts/ato-4/treemap.js` | `data/facilities/facilities_global.json`, `data/facilities/*.json` |
+| Ato 5 | Alternar Mapa 2D / Globos 3D | `web/threejs-globe/acts/ato-5/viewmode.js` | Estado do modo salvo em `localStorage` |
+| Ato 5 | Mapa 2D coropletico | `web/threejs-globe/acts/ato-5/map2d.js` | `data/dev_planet_globe.json`, `data/world.geojson` |
+| Ato 5 | Globos 3D duais | `web/threejs-globe/acts/ato-5/globe.js` | `data/dev_planet_globe.json`, `data/world.geojson` |
+| Ato 5 | Painel de comparacao Vega-Lite | `web/threejs-globe/acts/ato-5/comparison.js` | `data/dev_planet_globe.json` |
+| Ato 5 | Coordenadas paralelas | `web/threejs-globe/acts/ato-5/parallel.js` | `data/dev_planet_globe.json` |
+| Utilitario | Fade ao trocar conteudo | `web/threejs-globe/core/fx.js` | Elementos atualizados pela interface |
+
+### Organizacao atual em pastas
+
+Os modulos JavaScript da web ficam separados por responsabilidade:
+
+```text
+web/threejs-globe/
+  core/        state, theme, fx, narrative, timeline, ambient
+  acts/
+    ato-1/     race
+    ato-2/     footprint
+    ato-3/     trade-map
+    ato-4/     facilities-map, treemap
+    ato-5/     viewmode, map2d, globe, comparison, parallel
+  data/        jsons usados pela web
+  styles.css
+  index.html
+```
 
 ### Tecnologias web
 

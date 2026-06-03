@@ -1,3 +1,4 @@
+// responsavel pelo ato 5: globos 3d, selecao e sincronizacao
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import ThreeGlobe from "https://cdn.jsdelivr.net/npm/three-globe@2.35.2/+esm";
@@ -9,8 +10,8 @@ import {
   setYear,
   subscribe,
   toggleCountry,
-} from "./state.js";
-import { playFade } from "./fx.js";
+} from "../../core/state.js";
+import { playFade } from "../../core/fx.js";
 
 const tooltip = document.querySelector("#tooltip");
 const loading = document.querySelector("#loading");

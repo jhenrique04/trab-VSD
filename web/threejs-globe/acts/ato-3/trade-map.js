@@ -1,5 +1,6 @@
-import { cssVar } from "./theme.js";
-import { playFade } from "./fx.js";
+// responsavel pelo ato 3: compara co2 territorial e por consumo
+import { cssVar } from "../../core/theme.js";
+import { playFade } from "../../core/fx.js";
 
 const d3 = window.d3;
 

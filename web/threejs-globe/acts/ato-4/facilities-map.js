@@ -1,5 +1,6 @@
-import { getState, subscribe } from "./state.js";
-import { playFade } from "./fx.js";
+// responsavel pelo ato 4: mapa das instalacoes emissoras
+import { getState, subscribe } from "../../core/state.js";
+import { playFade } from "../../core/fx.js";
 
 const container = document.querySelector("#facilitiesMap");
 const legendEl = document.querySelector("#facilitiesLegend");

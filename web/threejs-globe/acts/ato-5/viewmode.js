@@ -1,5 +1,6 @@
+// responsavel pelo ato 5: alterna entre mapa 2d e globos 3d
 import { initMap2d } from "./map2d.js";
-import { playFade } from "./fx.js";
+import { playFade } from "../../core/fx.js";
 
 const KEY = "devplanet-view";
 const seg = document.querySelector("#viewSeg");
