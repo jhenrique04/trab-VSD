@@ -1,5 +1,5 @@
 // responsavel pelo ato 1: corrida idh x co2 per capita
-import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js";
+import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js?v=s1";
 import { cssVar } from "../../core/theme.js";
 
 const d3 = window.d3;
@@ -156,7 +156,7 @@ function drawQuadrant() {
     .attr("fill", "#2ca25f")
     .attr("font-size", 11)
     .attr("font-weight", 700)
-    .text("✦ ponto ideal");
+    .text("✦ quadrante ideal");
 }
 
 function render() {

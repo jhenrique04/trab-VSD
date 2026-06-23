@@ -1,11 +1,12 @@
 // responsavel pelo estado compartilhado de ano e paises selecionados
-export const MAX_SELECTION = 2;
+export const MAX_SELECTION = 5;
 
-export const COUNTRY_COLORS = ["#00dcff", "#ffb400"];
+export const COUNTRY_COLORS = ["#00dcff", "#ffb400", "#5cff8f", "#ff6ec7", "#b48cff"];
 
 const state = {
   selectedCountries: [],
   year: null,
+  sectors: [], // filtro de setores compartilhado (mapa + treemap do Ato 4)
 };
 
 const listeners = new Set();
@@ -44,7 +45,7 @@ export function toggleCountry(isoCode) {
   } else {
     state.selectedCountries.push(isoCode);
     if (state.selectedCountries.length > MAX_SELECTION) {
-      // mantem so dois pais selecionado
+      // mantem no maximo MAX_SELECTION paises (descarta o mais antigo)
       state.selectedCountries.shift();
     }
   }
@@ -61,4 +62,30 @@ export function clearCountries() {
 
 export function selectionIndex(isoCode) {
   return state.selectedCountries.indexOf(isoCode);
+}
+
+// --- filtro de setores compartilhado (Ato 4: mapa + treemap) ---
+export function toggleSector(sector) {
+  if (!sector) {
+    return;
+  }
+  const index = state.sectors.indexOf(sector);
+  if (index >= 0) {
+    state.sectors.splice(index, 1);
+  } else {
+    state.sectors.push(sector);
+  }
+  emit();
+}
+
+export function setSectors(list) {
+  state.sectors = [...new Set(list)];
+  emit();
+}
+
+// define o padrão só se ainda estiver vazio (sem emit: usado antes do 1º render)
+export function seedSectors(list) {
+  if (!state.sectors.length) {
+    state.sectors = [...new Set(list)];
+  }
 }

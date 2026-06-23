@@ -1,10 +1,16 @@
 // responsavel pelo ato 4: mapa das instalacoes emissoras
-import { getState, subscribe } from "../../core/state.js";
+import { getState, subscribe, toggleSector, setSectors, seedSectors } from "../../core/state.js?v=s1";
 import { playFade } from "../../core/fx.js";
 
 const container = document.querySelector("#facilitiesMap");
 const legendEl = document.querySelector("#facilitiesLegend");
 const statusEl = document.querySelector("#facilitiesStatus");
+const facFilterBtn = document.querySelector("#facFilterBtn");
+const facFilterMenu = document.querySelector("#facFilterMenu");
+const perSectorSel = document.querySelector("#facPerSector");
+
+let perSector = 1; // quantas instalações mostrar por setor selecionado
+
 
 const SECTOR_COLORS = {
   "electricity-generation": [222, 45, 38],
@@ -99,8 +105,19 @@ async function init() {
   }
   maxEmissions = allAssets.reduce((m, a) => Math.max(m, a.emissions), 1);
 
+  buildFacFilter();
+  if (perSectorSel) {
+    perSectorSel.addEventListener("change", () => {
+      perSector = Number(perSectorSel.value) || 1;
+      lastKey = null;
+      render(getState());
+    });
+  }
   render(getState());
-  subscribe(render);
+  subscribe((s) => {
+    syncFacMenu();
+    render(s);
+  });
   window.addEventListener("themechange", () => {
     lastKey = null;
     render(getState());
@@ -122,13 +139,32 @@ function basemapLayer() {
   });
 }
 
+// instalações mostradas: a MAIOR instalação de cada setor selecionado (filtra por
+// país se houver). 1 ponto por setor → o mapa reflete o filtro de setores (igual
+// ao treemap) sem virar uma mancha de 6535 pontos.
+// as `perSector` maiores instalações de CADA setor selecionado (filtra por país).
+function displayed(selected) {
+  const base = selected.size ? allAssets.filter((a) => selected.has(a.iso)) : allAssets;
+  const chosen = getState().sectors;
+  const active = chosen.length ? chosen : [...new Set(base.map((a) => a.sector))];
+  const out = [];
+  for (const s of active) {
+    const top = base
+      .filter((a) => a.sector === s)
+      .sort((a, b) => b.emissions - a.emissions)
+      .slice(0, perSector);
+    out.push(...top);
+  }
+  return out.sort((a, b) => b.emissions - a.emissions);
+}
+
 function render(state) {
   if (!deckInstance) {
     return;
   }
   const selected = new Set(state.selectedCountries);
   const hasSel = selected.size > 0;
-  const key = `${document.documentElement.dataset.theme}|${[...selected].join(",")}`;
+  const key = `${document.documentElement.dataset.theme}|${[...selected].join(",")}|${[...getState().sectors].sort().join(",")}|${perSector}`;
   if (key === lastKey) {
     return;
   }
@@ -140,31 +176,29 @@ function render(state) {
     return;
   }
 
+  const shownAssets = displayed(selected);
+  const localMax = shownAssets.reduce((m, a) => Math.max(m, a.emissions), 1);
+
   const scatter = new deck.ScatterplotLayer({
     id: "facilities",
-    data: allAssets,
+    data: shownAssets,
     pickable: true,
     stroked: true,
     filled: true,
     radiusUnits: "pixels",
-    radiusMinPixels: 1.5,
-    radiusMaxPixels: 34,
-    lineWidthMinPixels: 0.4,
+    radiusMinPixels: 5,
+    radiusMaxPixels: 44,
+    lineWidthMinPixels: 1,
     getPosition: (d) => [d.lon, d.lat],
-    getRadius: (d) => {
-      const base = 2 + 30 * Math.sqrt(d.emissions / maxEmissions);
-      return hasSel && selected.has(d.iso) ? base * 1.15 : base;
-    },
+    getRadius: (d) => 7 + 30 * Math.sqrt(d.emissions / localMax),
     getFillColor: (d) => {
       const [r, g, b] = SECTOR_COLORS[d.sector] || DEFAULT_SECTOR_COLOR;
-      const alpha = !hasSel || selected.has(d.iso) ? 205 : 28;
-      return [r, g, b, alpha];
+      return [r, g, b, 210];
     },
-    getLineColor: (d) => (hasSel && selected.has(d.iso) ? [255, 255, 255, 220] : [10, 16, 26, 120]),
+    getLineColor: [255, 255, 255, 220],
     updateTriggers: {
-      getFillColor: [hasSel, [...selected].join(",")],
-      getRadius: [hasSel, [...selected].join(",")],
-      getLineColor: [hasSel, [...selected].join(",")],
+      getFillColor: key,
+      getRadius: key,
     },
   });
 
@@ -176,13 +210,13 @@ function render(state) {
     flyTo({ longitude: 10, latitude: 25, zoom: 1.1 });
   }
 
-  renderLegend(hasSel ? allAssets.filter((a) => selected.has(a.iso)) : allAssets);
-  const shown = hasSel ? allAssets.filter((a) => selected.has(a.iso)).length : allAssets.length;
-  setStatus(
-    hasSel
-      ? `${shown} instalações nos países selecionados (Climate TRACE, CO2e).`
-      : `${shown} maiores instalações emissoras do mundo (Climate TRACE, CO2e). Selecione países para focar.`,
-  );
+  renderLegend(shownAssets);
+  const scope = hasSel ? "nos países selecionados" : "do mundo";
+  const label =
+    perSector === 1
+      ? `Maior instalação de cada setor (${shownAssets.length})`
+      : `${shownAssets.length} instalações (${perSector} por setor)`;
+  setStatus(`${label} ${scope} (Climate TRACE, CO2e).${hasSel ? "" : " Selecione países para focar."}`);
 }
 
 function flyToSelection(selected) {
@@ -215,6 +249,75 @@ function flyTo(target) {
     transitionInterpolator: Fly ? new Fly({ speed: 1.4 }) : undefined,
   };
   deckInstance.setProps({ viewState });
+}
+
+// dropdown de setores do mapa (checkbox por setor, ordenado por emissão total)
+function buildFacFilter() {
+  if (!facFilterBtn || !facFilterMenu) {
+    return;
+  }
+  const totals = new Map();
+  for (const a of allAssets) {
+    totals.set(a.sector, (totals.get(a.sector) || 0) + a.emissions);
+  }
+  const sectors = [...totals.keys()].sort((a, b) => totals.get(b) - totals.get(a));
+
+  // pré-seleciona os 8 maiores setores no estado COMPARTILHADO (só se vazio)
+  seedSectors(sectors.slice(0, 8));
+  const active = new Set(getState().sectors);
+
+  const rows = sectors
+    .map(
+      (s) =>
+        `<label class="treemap-filter-row"><input type="checkbox" value="${s}" ${active.has(s) ? "checked" : ""} /> <span>${SECTOR_LABELS[s] || s}</span></label>`,
+    )
+    .join("");
+  facFilterMenu.innerHTML = `
+    <div class="treemap-filter-actions">
+      <button type="button" data-act="all">Todos</button>
+      <button type="button" data-act="clear">Limpar</button>
+    </div>
+    ${rows}`;
+
+  facFilterMenu.addEventListener("change", (e) => {
+    const cb = e.target.closest('input[type="checkbox"]');
+    if (cb) {
+      toggleSector(cb.value); // estado emite → render + sync nos dois (mapa e treemap)
+    }
+  });
+  facFilterMenu.addEventListener("click", (e) => {
+    const act = e.target.closest("button[data-act]")?.dataset.act;
+    if (act) {
+      setSectors(act === "all" ? sectors : []);
+    }
+  });
+
+  facFilterBtn.addEventListener("click", () => {
+    const open = facFilterMenu.hasAttribute("hidden");
+    open ? facFilterMenu.removeAttribute("hidden") : facFilterMenu.setAttribute("hidden", "");
+    facFilterBtn.setAttribute("aria-expanded", String(open));
+  });
+  document.addEventListener("click", (e) => {
+    if (!facFilterMenu.hidden && !e.target.closest("#facFilter")) {
+      facFilterMenu.setAttribute("hidden", "");
+      facFilterBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+  syncFacMenu();
+}
+
+// espelha o estado compartilhado nos checkboxes + rótulo do botão
+function syncFacMenu() {
+  if (!facFilterMenu) {
+    return;
+  }
+  const active = new Set(getState().sectors);
+  facFilterMenu.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+    cb.checked = active.has(cb.value);
+  });
+  if (facFilterBtn) {
+    facFilterBtn.textContent = active.size ? `Setores: ${active.size} ▾` : "Filtrar setores ▾";
+  }
 }
 
 function renderLegend(assets) {

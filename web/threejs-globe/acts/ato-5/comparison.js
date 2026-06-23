@@ -1,5 +1,5 @@
 // responsavel pelo ato 5: graficos comparativos em vega-lite
-import { COUNTRY_COLORS, getState, subscribe } from "../../core/state.js";
+import { COUNTRY_COLORS, getState, subscribe } from "../../core/state.js?v=s1";
 import { cssVar } from "../../core/theme.js";
 import { playFade } from "../../core/fx.js";
 

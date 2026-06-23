@@ -538,10 +538,97 @@ select {
 
 .ab-legend {
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 8px 16px;
   color: var(--muted);
   font-size: 0.8rem;
   font-weight: 650;
+}
+
+.ab-legend:empty {
+  display: none;
+}
+
+/* Dropdown de escolha de países (Ato 5) */
+.country-picker {
+  position: relative;
+}
+
+.country-picker-btn {
+  width: 100%;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--card-soft);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 9px 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.country-picker-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.country-picker-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel-solid);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.3);
+}
+
+.country-picker-menu[hidden] {
+  display: none;
+}
+
+.country-picker-search {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--input-bg);
+  color: var(--text);
+  font: inherit;
+  padding: 0 10px;
+}
+
+.country-picker-list {
+  display: grid;
+  gap: 1px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.country-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.country-picker-row:hover {
+  background: var(--card-soft);
+}
+
+.country-picker-row input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
 }
 
 .selected-entry + .selected-entry {
@@ -1205,6 +1292,11 @@ select {
   color: var(--accent-contrast);
 }
 
+/* seletor de instalações por setor (mapa do Ato 4) */
+.fac-perselect {
+  margin: 10px 0;
+}
+
 .trade-chart {
   width: 100%;
 }
@@ -1258,7 +1350,8 @@ select {
 
 .treemap {
   position: relative;
-  height: min(46vh, 380px);
+  /* mais alto: aspecto menos "faixa" → células distribuem melhor em 2D */
+  height: clamp(420px, 64vh, 600px);
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel-solid);
@@ -1465,10 +1558,16 @@ select {
 
 .treemap-head {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  align-items: baseline;
+  /* agrupa título + controles à esquerda (sem vão enorme jogando o botão pro canto) */
+  justify-content: flex-start;
+  gap: 16px;
   flex-wrap: wrap;
+}
+
+/* botão "voltar aos setores" (contextual) vai pro fim da linha */
+.treemap-actions .treemap-back {
+  margin-left: 8px;
 }
 
 .treemap-back {
@@ -1490,6 +1589,103 @@ select {
 
 .treemap-back[hidden] {
   display: none;
+}
+
+/* Dropdown de filtro de setores (Ato 4) */
+.treemap-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.treemap-filter {
+  position: relative;
+}
+
+.treemap-filter-btn {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card-soft);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.treemap-filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.treemap-filter-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  width: 230px;
+  max-height: 320px;
+  overflow-y: auto;
+  display: grid;
+  gap: 2px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel-solid);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.treemap-filter-menu[hidden] {
+  display: none;
+}
+
+.treemap-filter-actions {
+  display: flex;
+  gap: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.treemap-filter-actions button {
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card-soft);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.treemap-filter-actions button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.treemap-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.treemap-filter-row:hover {
+  background: var(--card-soft);
+}
+
+.treemap-filter-row input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
 }
 
 .timeline-svg {

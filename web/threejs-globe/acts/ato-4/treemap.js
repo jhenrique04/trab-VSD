@@ -1,5 +1,5 @@
 // responsavel pelo ato 4: treemap de setores e instalacoes
-import { getState, subscribe } from "../../core/state.js";
+import { getState, subscribe, toggleSector, setSectors, seedSectors } from "../../core/state.js?v=s1";
 import { cssVar } from "../../core/theme.js";
 
 const d3 = window.d3;
@@ -55,6 +55,8 @@ const FACILITIES_PER_SECTOR = 120;
 const container = document.querySelector("#treemap");
 const titleEl = document.querySelector("#treemapTitle");
 const backEl = document.querySelector("#treemapBack");
+const filterBtn = document.querySelector("#treemapFilterBtn");
+const filterMenu = document.querySelector("#treemapFilterMenu");
 
 let allAssets = [];
 let svg, tooltip;
@@ -87,10 +89,103 @@ async function boot() {
   if (backEl) {
     backEl.addEventListener("click", () => render(topItems, topScope, true));
   }
+  buildFilterMenu();
   new ResizeObserver(() => current && render(current.items, current.scope, current.atTop)).observe(container);
   window.addEventListener("themechange", () => current && render(current.items, current.scope, current.atTop));
-  subscribe(rebuild);
+  subscribe(() => {
+    syncFilterMenu();
+    rebuild();
+  });
   rebuild();
+}
+
+// monta o dropdown de setores (checkbox por setor presente, ordenado por emissão)
+function buildFilterMenu() {
+  if (!filterBtn || !filterMenu) {
+    return;
+  }
+  const totals = d3.rollup(
+    allAssets,
+    (v) => d3.sum(v, (a) => a.emissions),
+    (a) => a.sector,
+  );
+  const sectors = [...totals.keys()].sort((a, b) => totals.get(b) - totals.get(a));
+
+  // pré-seleciona os 8 maiores setores no estado COMPARTILHADO (só se vazio)
+  seedSectors(sectors.slice(0, 8));
+  const active = new Set(getState().sectors);
+
+  const rows = sectors
+    .map(
+      (s) =>
+        `<label class="treemap-filter-row"><input type="checkbox" value="${s}" ${active.has(s) ? "checked" : ""} /> <span>${SECTOR_LABELS[s] || s}</span></label>`,
+    )
+    .join("");
+  filterMenu.innerHTML = `
+    <div class="treemap-filter-actions">
+      <button type="button" data-act="all">Todos</button>
+      <button type="button" data-act="clear">Limpar</button>
+    </div>
+    ${rows}`;
+
+  filterMenu.addEventListener("change", (e) => {
+    const cb = e.target.closest('input[type="checkbox"]');
+    if (cb) {
+      toggleSector(cb.value); // estado emite → rebuild + sync nos dois (mapa e treemap)
+    }
+  });
+  filterMenu.addEventListener("click", (e) => {
+    const act = e.target.closest("button[data-act]")?.dataset.act;
+    if (act) {
+      setSectors(act === "all" ? sectors : []);
+    }
+  });
+
+  filterBtn.addEventListener("click", () => {
+    const open = filterMenu.hasAttribute("hidden");
+    open ? filterMenu.removeAttribute("hidden") : filterMenu.setAttribute("hidden", "");
+    filterBtn.setAttribute("aria-expanded", String(open));
+  });
+  document.addEventListener("click", (e) => {
+    if (!filterMenu.hidden && !e.target.closest("#treemapFilter")) {
+      filterMenu.setAttribute("hidden", "");
+      filterBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+  syncFilterMenu();
+}
+
+// espelha o estado compartilhado nos checkboxes + rótulo do botão
+function syncFilterMenu() {
+  if (!filterMenu) {
+    return;
+  }
+  const active = new Set(getState().sectors);
+  filterMenu.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+    cb.checked = active.has(cb.value);
+  });
+  if (filterBtn) {
+    filterBtn.textContent = active.size ? `Setores: ${active.size} ▾` : "Filtrar setores ▾";
+  }
+}
+
+// limita a 8 blocos: top 7 + "Outros setores" somando o resto (mantem 100%)
+function collapseToEight(sectors) {
+  if (sectors.length <= 8) {
+    return sectors;
+  }
+  const head = sectors.slice(0, 7);
+  const rest = sectors.slice(7);
+  head.push({
+    name: "Outros setores",
+    sector: "__other__",
+    value: d3.sum(rest, (d) => d.value),
+    facilities: rest
+      .flatMap((s) => s.facilities)
+      .sort((a, b) => b.value - a.value)
+      .slice(0, FACILITIES_PER_SECTOR),
+  });
+  return head;
 }
 
 function rebuild() {
@@ -101,7 +196,7 @@ function rebuild() {
   const source = selSet.size ? allAssets.filter((a) => selSet.has(a.iso)) : allAssets;
 
   const bySector = d3.group(source, (a) => a.sector);
-  topItems = [...bySector]
+  let sectors = [...bySector]
     .map(([sector, assets]) => ({
       name: SECTOR_LABELS[sector] || sector,
       sector,
@@ -113,6 +208,15 @@ function rebuild() {
         .map((a) => ({ name: a.name, sector: a.sector, value: a.emissions })),
     }))
     .sort((a, b) => b.value - a.value);
+
+  // filtro de setores (dropdown compartilhado): se houver escolha, só os marcados
+  const selSectors = new Set(getState().sectors);
+  if (selSectors.size) {
+    sectors = sectors.filter((s) => selSectors.has(s.sector));
+  }
+
+  // limita a 8 blocos: top 7 + "Outros setores" somando o resto (mantem 100%)
+  topItems = collapseToEight(sectors);
 
   topScope = selSet.size ? "Países selecionados" : "Mundo (Climate TRACE)";
   render(topItems, topScope, true);

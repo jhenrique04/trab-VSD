@@ -1,5 +1,5 @@
 // responsavel pelo ato 5: mapa 2d coropletico dos indicadores
-import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js";
+import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js?v=s1";
 import { cssVar } from "../../core/theme.js";
 import { playFade } from "../../core/fx.js";
 
