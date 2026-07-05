@@ -196,6 +196,9 @@ function render(state) {
       return [r, g, b, 210];
     },
     getLineColor: [255, 255, 255, 220],
+    // sem depth-test: pontos pequenos não somem atrás dos círculos grandes
+    // (data ordenada por emissão desc → menores desenhados por último = por cima)
+    parameters: { depthTest: false },
     updateTriggers: {
       getFillColor: key,
       getRadius: key,

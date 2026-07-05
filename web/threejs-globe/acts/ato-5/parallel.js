@@ -27,7 +27,7 @@ const legendEl = document.querySelector("#parallelLegend");
 
 let rows = [];
 let byYear = new Map();
-let svg, gPlot, tooltip;
+let svg, gPlot, gHalo, tooltip;
 let x, yScales;
 const brushes = {};
 let started = false;
@@ -49,6 +49,7 @@ async function boot() {
 
   svg = d3.select(container).append("svg").attr("class", "race-svg");
   gPlot = svg.append("g");
+  gHalo = gPlot.append("g").attr("class", "pc-halos"); // fica ATRÁS das linhas
   tooltip = d3.select("body").append("div").attr("class", "tooltip").attr("hidden", true);
 
   renderLegend();
@@ -95,35 +96,37 @@ function draw() {
 
   const sel = getState().selectedCountries;
   const selSet = new Set(sel);
+
+  // halo na cor de SELEÇÃO por baixo: mostra qual país foi escolhido sem
+  // repintar a linha (que fica na cor de PERFIL, mantendo a legenda coerente).
+  const haloData = sel.map((iso) => data.find((d) => d.iso_code === iso)).filter(Boolean);
+  gHalo
+    .selectAll("path")
+    .data(haloData, (d) => d.iso_code)
+    .join("path")
+    .attr("fill", "none")
+    .attr("d", line)
+    .attr("stroke", (d) => COUNTRY_COLORS[selectionIndex(d.iso_code)])
+    .attr("stroke-width", 8)
+    .attr("stroke-opacity", 0.35)
+    .attr("stroke-linecap", "round")
+    .attr("pointer-events", "none");
+
   const lines = gPlot.selectAll("path.pc-line").data(data, (d) => d.iso_code);
   lines
     .join("path")
     .attr("class", "pc-line")
     .attr("fill", "none")
     .attr("d", line)
+    // cor SEMPRE por perfil → a legenda "Perfil" continua explicando o gráfico
     .attr("stroke", (d) => PROFILE_COLORS[d.development_carbon_profile] || "#8b95a5")
-    .attr("stroke-width", (d) => (selSet.has(d.iso_code) ? 3 : 1))
-    .attr("stroke-opacity", (d) => (selSet.size ? (selSet.has(d.iso_code) ? 1 : 0.12) : 0.42))
+    .attr("stroke-width", (d) => (selSet.has(d.iso_code) ? 3.5 : 1))
+    // fade mais suave: o leque de perfis continua visível quando há seleção
+    .attr("stroke-opacity", (d) => (selSet.size ? (selSet.has(d.iso_code) ? 1 : 0.3) : 0.42))
     .style("cursor", "pointer")
     .on("mousemove", showTip)
     .on("mouseleave", () => tooltip.attr("hidden", true))
     .on("click", (_e, d) => toggleCountry(d.iso_code));
-
-  gPlot.selectAll("path.pc-sel").remove();
-  for (const iso of sel) {
-    const row = data.find((d) => d.iso_code === iso);
-    if (!row) {
-      continue;
-    }
-    gPlot
-      .append("path")
-      .attr("class", "pc-sel")
-      .attr("fill", "none")
-      .attr("d", line(row))
-      .attr("stroke", COUNTRY_COLORS[selectionIndex(iso)])
-      .attr("stroke-width", 3.5)
-      .attr("pointer-events", "none");
-  }
 
   const axisG = gPlot.selectAll("g.pc-axis").data(DIMS, (d) => d.key);
   const axisEnter = axisG.enter().append("g").attr("class", "pc-axis");

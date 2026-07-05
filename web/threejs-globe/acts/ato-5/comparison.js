@@ -118,6 +118,12 @@ function isFiniteNumber(value) {
   return typeof value === "number" && Number.isFinite(value);
 }
 
+function median(values) {
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
 function embed(container, spec) {
   return window
     .vegaEmbed(container, spec, embedOpts())
@@ -277,11 +283,14 @@ function renderConsumption(selectedCountries, year, palette) {
 
 
 function renderDumbbell(selectedCountries, year, palette) {
-  if (selectedCountries.length < 2) {
-    note(containers.dumbbell, "Selecione dois países para a comparação lado a lado.");
+  if (!selectedCountries.length) {
+    note(containers.dumbbell, "Selecione um país para comparar com a mediana global.");
     return;
   }
 
+  // com 1 país selecionado, compara ele com a MEDIANA GLOBAL (senão o dumbbell
+  // fica com um ponto só e sem informação); com 2+, compara os países entre si.
+  const solo = selectedCountries.length === 1;
   const yearRows = allRows.filter((r) => r.year === year);
   const points = [];
   const connectors = [];
@@ -294,34 +303,35 @@ function renderDumbbell(selectedCountries, year, palette) {
     const min = Math.min(...all);
     const max = Math.max(...all);
     const span = max - min || 1;
+    const norm = (raw) => (isFiniteNumber(raw) ? (raw - min) / span : null);
 
-    const normalized = selectedCountries.map((iso) => {
+    const series = selectedCountries.map((iso) => {
       const raw = rowFor(iso, year)?.[indicator.key];
-      return {
-        iso,
-        pais: countryName(iso),
-        raw,
-        value: isFiniteNumber(raw) ? (raw - min) / span : null,
-      };
+      return { pais: countryName(iso), raw, value: norm(raw) };
     });
-    if (normalized.some((d) => d.value === null)) {
+    if (solo) {
+      const med = median(all);
+      series.push({ pais: "Mediana global", raw: med, value: norm(med) });
+    }
+    if (series.some((d) => d.value === null)) {
       continue;
     }
 
-    for (const entry of normalized) {
+    for (const entry of series) {
       points.push({ indicador: indicator.label, pais: entry.pais, value: entry.value, raw: entry.raw });
     }
-    connectors.push({
-      indicador: indicator.label,
-      v0: normalized[0].value,
-      v1: normalized[1].value,
-    });
+    connectors.push({ indicador: indicator.label, v0: series[0].value, v1: series[1].value });
   }
 
   if (!points.length) {
-    note(containers.dumbbell, "Sem indicadores comparáveis para os dois países neste ano.");
+    note(containers.dumbbell, "Sem indicadores comparáveis neste ano.");
     return;
   }
+
+  // no modo 1-país, a "Mediana global" entra na paleta em cinza
+  const usedPalette = solo
+    ? { domain: [palette.domain[0], "Mediana global"], range: [palette.range[0], "#9fb0c8"] }
+    : palette;
 
   const spec = {
     $schema: "https://vega.github.io/schema/vega-lite/v5.json",
@@ -343,7 +353,7 @@ function renderDumbbell(selectedCountries, year, palette) {
         encoding: {
           y: { field: "indicador", type: "nominal", title: null },
           x: { field: "value", type: "quantitative", scale: { domain: [0, 1] } },
-          color: { field: "pais", type: "nominal", scale: palette, title: null },
+          color: { field: "pais", type: "nominal", scale: usedPalette, title: null },
           tooltip: [
             { field: "pais", title: "País" },
             { field: "indicador", title: "Indicador" },
