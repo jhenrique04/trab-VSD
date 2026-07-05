@@ -1,7 +1,10 @@
 // responsavel pelo estado compartilhado de ano e paises selecionados
 export const MAX_SELECTION = 5;
 
-export const COUNTRY_COLORS = ["#00dcff", "#ffb400", "#5cff8f", "#ff6ec7", "#b48cff"];
+// tons do d3.schemeTableau10 (mesma família de cor do Ato 1: REGION_COLORS
+// usa o Tableau10 inteiro) — mais suaves que o neon anterior, combinando com
+// o resto do site.
+export const COUNTRY_COLORS = ["#4e79a7", "#f28e2c", "#59a14f", "#e15759", "#af7aa1"];
 
 const state = {
   selectedCountries: [],

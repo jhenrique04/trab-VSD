@@ -172,7 +172,6 @@ if (narrative && svg) {
     { passive: true },
   );
   window.addEventListener("resize", build);
-  window.addEventListener("themechange", build);
   window.addEventListener("load", build);
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(build);

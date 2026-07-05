@@ -1,5 +1,5 @@
 // responsavel pelo ato 1: corrida idh x co2 per capita
-import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js?v=s1";
+import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js?v=s2";
 import { cssVar } from "../../core/theme.js";
 
 const d3 = window.d3;
@@ -55,7 +55,6 @@ async function init() {
   wireControls();
 
   new ResizeObserver(onResize).observe(container);
-  window.addEventListener("themechange", applyTheme);
   subscribe(render);
 }
 
@@ -93,7 +92,9 @@ function setupScales() {
   dims();
   const w = width - MARGIN.left - MARGIN.right;
   const h = height - MARGIN.top - MARGIN.bottom;
-  xScale = d3.scaleLinear().domain([0.25, 1.0]).range([0, w]);
+  // 0.20 cobre o mínimo histórico real (Níger, 1990-95, IDH ~0,215-0,238);
+  // clamp evita que valores futuros fora do domínio "saiam" do gráfico.
+  xScale = d3.scaleLinear().domain([0.2, 1.0]).range([0, w]).clamp(true);
   yScale = d3.scaleLog().domain([0.03, 60]).range([h, 0]).clamp(true);
   rScale = d3.scaleSqrt().domain([0, d3.max(rows, (d) => d.population)]).range([2.5, 42]);
   gPlot.attr("transform", `translate(${MARGIN.left},${MARGIN.top})`);
@@ -354,10 +355,3 @@ function onResize() {
   render();
 }
 
-function applyTheme() {
-  if (!years.length) {
-    return;
-  }
-  drawAxes();
-  render();
-}

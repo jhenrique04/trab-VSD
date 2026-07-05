@@ -1,5 +1,5 @@
 // responsavel pelo ato 5: coordenadas paralelas com brush
-import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js?v=s1";
+import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js?v=s2";
 import { cssVar } from "../../core/theme.js";
 
 const d3 = window.d3;
@@ -52,12 +52,7 @@ async function boot() {
   gHalo = gPlot.append("g").attr("class", "pc-halos"); // fica ATRÁS das linhas
   tooltip = d3.select("body").append("div").attr("class", "tooltip").attr("hidden", true);
 
-  renderLegend();
   new ResizeObserver(draw).observe(container);
-  window.addEventListener("themechange", () => {
-    renderLegend();
-    draw();
-  });
   subscribe(draw);
   draw();
 }
@@ -111,6 +106,8 @@ function draw() {
     .attr("stroke-opacity", 0.35)
     .attr("stroke-linecap", "round")
     .attr("pointer-events", "none");
+
+  renderLegend(data, sel);
 
   const lines = gPlot.selectAll("path.pc-line").data(data, (d) => d.iso_code);
   lines
@@ -193,16 +190,50 @@ function showTip(event, d) {
     .style("top", `${Math.min(event.clientY + 14, window.innerHeight - 130)}px`);
 }
 
-function renderLegend() {
+// com países selecionados, a legenda de Perfil sozinha não diz quem é quem
+// (duas linhas do mesmo perfil ficam com a mesma cor). Mostra um bloco
+// "Países selecionados" com a cor de destaque (halo) + o perfil real + os
+// números-chave de cada um; a legenda de Perfil continua abaixo, pois ainda
+// explica o leque de fundo (países não selecionados).
+function renderLegend(data, sel) {
   if (!legendEl) {
     return;
   }
-  legendEl.innerHTML = `<div class="category-list">${Object.entries(PROFILE_COLORS)
-    .map(
-      ([label, color]) =>
-        `<div class="category-item"><span class="swatch" style="background:${color}"></span><span>${label}</span></div>`,
-    )
-    .join("")}</div>`;
+  const selRows = (sel || []).map((iso) => data?.find((d) => d.iso_code === iso)).filter(Boolean);
+
+  const selectedHtml = selRows.length
+    ? `<div class="parallel-selected-legend">
+        <h3>Países selecionados</h3>
+        <div class="category-list">
+          ${selRows
+            .map(
+              (d) => `
+            <div class="category-item pc-selected-item">
+              <span class="swatch" style="background:${COUNTRY_COLORS[selectionIndex(d.iso_code)]}"></span>
+              <span>
+                <strong>${d.country}</strong>
+                <small>${d.development_carbon_profile || "Dados insuficientes"} · IDH ${d.hdi.toFixed(2)} · ${d.co2_per_capita.toFixed(1)} t CO2/cap</small>
+              </span>
+            </div>`,
+            )
+            .join("")}
+        </div>
+      </div>`
+    : "";
+
+  legendEl.innerHTML = `
+    ${selectedHtml}
+    <div class="parallel-profile-legend">
+      <h3>Perfil</h3>
+      <div class="category-list">
+        ${Object.entries(PROFILE_COLORS)
+          .map(
+            ([label, color]) =>
+              `<div class="category-item"><span class="swatch" style="background:${color}"></span><span>${label}</span></div>`,
+          )
+          .join("")}
+      </div>
+    </div>`;
 }
 
 if (container && "IntersectionObserver" in window) {

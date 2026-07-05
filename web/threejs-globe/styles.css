@@ -1,25 +1,5 @@
 /* responsavel pelo tema, layout, responsividade e estados visuais */
-:root,
-html[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #07111f;
-  --panel: rgba(11, 20, 34, 0.82);
-  --panel-solid: #0b1422;
-  --text: #e8eef9;
-  --muted: #9fb0c8;
-  --line: rgba(155, 178, 210, 0.24);
-  --accent: #73d2ff;
-  --missing: #8b95a5;
-  --bg-grad: linear-gradient(160deg, #07111f 0%, #0b1320 52%, #090b12 100%);
-  --card-soft: rgba(255, 255, 255, 0.035);
-  --globe-scene: #07111f;
-  --basemap-tiles: "dark_all";
-  --input-bg: #101c2e;
-  --tooltip-bg: rgba(7, 13, 22, 0.94);
-  --accent-contrast: #04121d;
-}
-
-html[data-theme="light"] {
+:root {
   color-scheme: light;
   --bg: #f4f7fb;
   --panel: rgba(255, 255, 255, 0.86);
@@ -31,8 +11,6 @@ html[data-theme="light"] {
   --missing: #aab4c2;
   --bg-grad: linear-gradient(160deg, #f7fafe 0%, #eef3f9 52%, #e7eef6 100%);
   --card-soft: rgba(20, 40, 70, 0.04);
-  --globe-scene: #dde7f2;
-  --basemap-tiles: "light_all";
   --input-bg: #ffffff;
   --tooltip-bg: rgba(255, 255, 255, 0.97);
   --accent-contrast: #ffffff;
@@ -76,7 +54,6 @@ html[data-theme="light"] {
 button,
 select,
 .topbar-nav a,
-.theme-toggle,
 .seg button {
   transition:
     background-color 0.22s ease,
@@ -411,6 +388,41 @@ select {
   gap: 9px;
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+/* legenda das paralelas: h3 no lugar do h2 fixo, pois o bloco de países
+   selecionados é gerado dinamicamente e some quando não há seleção */
+.legend h3 {
+  margin: 0 0 8px;
+  font-size: 0.92rem;
+}
+
+.parallel-selected-legend {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pc-selected-item {
+  align-items: start;
+}
+
+.pc-selected-item .swatch {
+  margin-top: 4px;
+}
+
+.pc-selected-item strong {
+  display: block;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.pc-selected-item small {
+  display: block;
+  margin-top: 1px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.35;
 }
 
 .swatch {
@@ -860,26 +872,6 @@ select {
 .topbar-nav a.is-active {
   color: var(--text);
   background: var(--card-soft);
-}
-
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 36px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--card-soft);
-  color: var(--text);
-  font: inherit;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.theme-toggle:hover {
-  border-color: var(--accent);
 }
 
 .narrative {
@@ -1391,6 +1383,20 @@ select {
   border-radius: 10px;
   background: var(--panel-solid);
   overflow: hidden;
+}
+
+/* card da legenda acompanha a altura do gráfico e rola como UM bloco só;
+   as listas internas (que teriam seu próprio scroll) ficam soltas aqui
+   dentro para não virar scroll dentro de scroll. */
+.parallel-shell .legend {
+  max-height: min(54vh, 480px);
+  overflow-y: auto;
+}
+
+.parallel-shell .category-list {
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
 }
 
 .parallel-chart svg {

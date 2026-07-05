@@ -1,6 +1,4 @@
 // responsavel pelo fundo animado com particulas e globo em canvas
-import { currentTheme } from "./theme.js";
-
 const canvas = document.querySelector("#ambientCanvas");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -73,7 +71,7 @@ if (canvas && !reduceMotion) {
   }
 
   function rgb() {
-    return currentTheme() === "light" ? "40,84,134" : "150,196,255";
+    return "40,84,134";
   }
 
   function drawGlobe() {
@@ -94,7 +92,7 @@ if (canvas && !reduceMotion) {
       return [cx + x1 * R, cy - y2 * R, (z2 + 1) / 2];
     };
 
-    const cool = currentTheme() === "light" ? [40, 84, 134] : [150, 196, 255];
+    const cool = [40, 84, 134];
     const warm = [226, 74, 52];
     const gr = Math.round(cool[0] + (warm[0] - cool[0]) * ratio);
     const gg = Math.round(cool[1] + (warm[1] - cool[1]) * ratio);

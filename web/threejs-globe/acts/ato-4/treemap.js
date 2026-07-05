@@ -1,5 +1,5 @@
 // responsavel pelo ato 4: treemap de setores e instalacoes
-import { getState, subscribe, toggleSector, setSectors, seedSectors } from "../../core/state.js?v=s1";
+import { getState, subscribe, toggleSector, setSectors, seedSectors } from "../../core/state.js?v=s2";
 import { cssVar } from "../../core/theme.js";
 
 const d3 = window.d3;
@@ -91,7 +91,6 @@ async function boot() {
   }
   buildFilterMenu();
   new ResizeObserver(() => current && render(current.items, current.scope, current.atTop)).observe(container);
-  window.addEventListener("themechange", () => current && render(current.items, current.scope, current.atTop));
   subscribe(() => {
     syncFilterMenu();
     rebuild();

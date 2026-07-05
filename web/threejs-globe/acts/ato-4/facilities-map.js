@@ -1,5 +1,5 @@
 // responsavel pelo ato 4: mapa das instalacoes emissoras
-import { getState, subscribe, toggleSector, setSectors, seedSectors } from "../../core/state.js?v=s1";
+import { getState, subscribe, toggleSector, setSectors, seedSectors } from "../../core/state.js?v=s2";
 import { playFade } from "../../core/fx.js";
 
 const container = document.querySelector("#facilitiesMap");
@@ -118,17 +118,12 @@ async function init() {
     syncFacMenu();
     render(s);
   });
-  window.addEventListener("themechange", () => {
-    lastKey = null;
-    render(getState());
-  });
 }
 
 function basemapLayer() {
-  const tiles = document.documentElement.dataset.theme === "light" ? "light_all" : "dark_all";
   return new deck.TileLayer({
     id: "basemap",
-    data: `https://a.basemaps.cartocdn.com/${tiles}/{z}/{x}/{y}.png`,
+    data: "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
     minZoom: 0,
     maxZoom: 19,
     tileSize: 256,
@@ -164,7 +159,7 @@ function render(state) {
   }
   const selected = new Set(state.selectedCountries);
   const hasSel = selected.size > 0;
-  const key = `${document.documentElement.dataset.theme}|${[...selected].join(",")}|${[...getState().sectors].sort().join(",")}|${perSector}`;
+  const key = `${[...selected].join(",")}|${[...getState().sectors].sort().join(",")}|${perSector}`;
   if (key === lastKey) {
     return;
   }

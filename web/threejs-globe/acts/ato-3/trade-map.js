@@ -47,7 +47,6 @@ async function init() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => draw(false), 120);
   }).observe(mapEl);
-  window.addEventListener("themechange", () => draw(false));
 }
 
 function pickYear(rows) {

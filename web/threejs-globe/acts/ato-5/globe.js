@@ -10,7 +10,7 @@ import {
   setYear,
   subscribe,
   toggleCountry,
-} from "../../core/state.js?v=s1";
+} from "../../core/state.js?v=s2";
 import { playFade } from "../../core/fx.js";
 
 const tooltip = document.querySelector("#tooltip");

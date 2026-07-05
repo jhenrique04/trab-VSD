@@ -1,6 +1,6 @@
 // dropdown para escolher os paises da comparacao (ate MAX_SELECTION);
 // espelha e alimenta o estado compartilhado + desenha a legenda dinamica.
-import { COUNTRY_COLORS, getState, subscribe, toggleCountry } from "../../core/state.js?v=s1";
+import { COUNTRY_COLORS, getState, subscribe, toggleCountry } from "../../core/state.js?v=s2";
 
 const btn = document.querySelector("#countryPickerBtn");
 const menu = document.querySelector("#countryPickerMenu");

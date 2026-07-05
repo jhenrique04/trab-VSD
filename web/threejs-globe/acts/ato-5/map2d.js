@@ -1,5 +1,5 @@
 // responsavel pelo ato 5: mapa 2d coropletico dos indicadores
-import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js?v=s1";
+import { COUNTRY_COLORS, getState, selectionIndex, subscribe, toggleCountry } from "../../core/state.js?v=s2";
 import { cssVar } from "../../core/theme.js";
 import { playFade } from "../../core/fx.js";
 
@@ -65,7 +65,6 @@ async function boot() {
   });
 
   new ResizeObserver(draw).observe(mapEl);
-  window.addEventListener("themechange", draw);
   subscribe(draw);
   draw();
 }
