@@ -3,7 +3,6 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: ["main"]
-    paths: ["web/threejs-globe/**"]
   workflow_dispatch:
 
 permissions:
